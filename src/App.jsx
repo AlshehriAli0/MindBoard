@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Header from "./componenets/Header.jsx";
-import Footer from "./componenets/Footer.jsx";
-import Note from "./componenets/Note.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import Note from "./components/Note.jsx";
 import axios from "axios";
 
 function App() {
+  // * send data to Note.jsx
   const [item, setItem] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,12 +17,13 @@ function App() {
       }
     };
     fetchData();
-  },[] );
+  }, []);
 
+  // * displayed content
   return (
     <div>
       <div>
-        <Header></Header>
+        <Navbar></Navbar>
         <Note dataFromApp={item}></Note>
         <Footer></Footer>
       </div>
