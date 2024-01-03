@@ -4,21 +4,31 @@ const app = express();
 const PORT = 8080;
 
 app.use(express.static("build"));
+app.use(express.json());
 
 const notes = [
-  { title: "Note Title", content: "Note Content", id: 1 },
-  { title: "Note Title2", content: "Note Content2", id: 2 },
-  { title: "Note Title3", content: "Note Content3", id: 3 },
-  {
-    title: "Note Title45",
-    content: "Note Content45",
-    id: 4,
-  },
+ 
 ];
 
+
+// * Get Routes
 app.get("/api/notes", (req, res) => {
   res.send(notes);
 });
+
+// * Post Routes
+app.post("/api/login", (req, res) => {
+  const { email, password, action } = req.body;
+  console.log(`Email: ${email}, Password: ${password}, action: ${action}`);
+  res.json({ message: "Login successful" });
+});
+
+app.post("/api/signUp", (req, res) => {
+  const {name, email, password, action } = req.body;
+  console.log(`name ${name}, Email: ${email}, Password: ${password}, action: ${action}`);
+  res.json({ message: "Sign in successful" });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

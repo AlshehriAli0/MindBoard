@@ -1,0 +1,12 @@
+html {
+    background-color: rgb(233, 233, 233);
+}
+
+.transition-transform {
+    transition: transform 0.3s ease-out;
+}
+
+.focused-label {
+    transform: translateY(-1.5rem) scale(0.8);
+}
+

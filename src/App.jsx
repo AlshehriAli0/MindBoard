@@ -21,13 +21,11 @@ function App() {
 
   // * displayed content
   return (
-    <div>
-      <div>
+    <>
         <Navbar></Navbar>
         <Note dataFromApp={item}></Note>
         <Footer></Footer>
-      </div>
-    </div>
+    </>
   );
 }
 
