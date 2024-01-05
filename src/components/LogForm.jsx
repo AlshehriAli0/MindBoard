@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function LogForm() {
+function LogForm({ closeForm }) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -37,6 +37,11 @@ function LogForm() {
         "flex md:mt-72 sm:mt-64 mt-80 items-center mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
       }
     >
+      <img
+        src={`${process.env.PUBLIC_URL}/assets/cross.png`}
+        className="absolute h-8 space-y-12 right-4 bottom-56 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
+        onClick={() => closeForm("")} alt="Close Form"
+      ></img>
       <div className="py-6 align-middle pt-10 md:mb-64 mb-40 w-96 px-8 h-80 bg-white rounded shadow-2xl">
         <label className="relative font-bold text-2xl bottom-2 left-24 sm:left-32">
           Log In
@@ -53,6 +58,7 @@ function LogForm() {
               Email
             </label>
             <input
+              required
               type="email"
               name="email"
               id="email"
@@ -60,7 +66,6 @@ function LogForm() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                console.log(e.target.value);
               }}
               onFocus={() => setFocusedE(true)}
               onBlur={() => setFocusedE(false)}
@@ -80,15 +85,15 @@ function LogForm() {
               Password
             </label>
             <input
+              minLength={6}
               type={showPassword ? "text" : "password"}
               name="password"
               id="password"
               placeholder=""
               className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
-              value={password}
+              value={password.length > 6 ? password : null}
               onChange={(e) => {
                 setPassword(e.target.value);
-                console.log(e.target.value);
               }}
               onFocus={() => setFocusedP(true)}
               onBlur={() => setFocusedP(false)}

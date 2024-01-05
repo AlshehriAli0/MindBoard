@@ -20,13 +20,13 @@ app.get("/api/notes", (req, res) => {
 app.post("/api/login", (req, res) => {
   const { email, password, action } = req.body;
   console.log(`Email: ${email}, Password: ${password}, action: ${action}`);
-  res.json({ message: "Login successful" });
+  console.log({ message: "Login successful" });
 });
 
 app.post("/api/signUp", (req, res) => {
   const {name, email, password, action } = req.body;
   console.log(`name ${name}, Email: ${email}, Password: ${password}, action: ${action}`);
-  res.json({ message: "Sign in successful" });
+  console.log({ message: "Sign in successful" });
 });
 
 

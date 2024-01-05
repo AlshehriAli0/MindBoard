@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function SignForm({ closeForm }) {
@@ -31,11 +31,12 @@ function SignForm({ closeForm }) {
       setName("");
       setEmail("");
       setPassword("");
+      //* close form
+      closeForm("");
     } catch (error) {
       console.error(error);
     }
   };
-
 
   return (
     <>
@@ -49,7 +50,9 @@ function SignForm({ closeForm }) {
           src={`${process.env.PUBLIC_URL}/assets/cross.png`}
           className="absolute h-8 space-y-12 right-4 bottom-64 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
           onClick={() => closeForm("")}
+          alt="Close Form"
         ></img>
+
         <div className="py-6 align-middle pt-10 md:mb-64 mb-40 w-96 px-8 h-96 bg-white rounded shadow-2xl">
           <label className="relative pl-2  sm:left-28 font-bold text-2xl bottom-2 left-20">
             Sign Up
@@ -79,7 +82,6 @@ function SignForm({ closeForm }) {
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
-                  console.log(e.target.value);
                 }}
                 onFocus={() => setFocusedN(true)}
                 onBlur={() => setFocusedN(false)}
@@ -105,7 +107,6 @@ function SignForm({ closeForm }) {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  console.log(e.target.value);
                 }}
                 onFocus={() => setFocusedE(true)}
                 onBlur={() => setFocusedE(false)}
@@ -134,7 +135,6 @@ function SignForm({ closeForm }) {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  console.log(e.target.value);
                 }}
                 onFocus={() => setFocusedP(true)}
                 onBlur={() => setFocusedP(false)}
