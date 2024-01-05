@@ -39,7 +39,7 @@ function LogForm({ closeForm }) {
     >
       <img
         src={`${process.env.PUBLIC_URL}/assets/cross.png`}
-        className="absolute h-8 space-y-12 right-4 bottom-56 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
+        className="absolute md:h-8 h-10 space-y-12 right-4 bottom-44 md:bottom-56 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
         onClick={() => closeForm("")} alt="Close Form"
       ></img>
       <div className="py-6 align-middle pt-10 md:mb-64 mb-40 w-96 px-8 h-80 bg-white rounded shadow-2xl">

@@ -48,7 +48,7 @@ function SignForm({ closeForm }) {
       >
         <img
           src={`${process.env.PUBLIC_URL}/assets/cross.png`}
-          className="absolute h-8 space-y-12 right-4 bottom-64 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
+          className="absolute md:h-8 h-10 space-y-12 right-4 bottom-52 md:bottom-64 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
           onClick={() => closeForm("")}
           alt="Close Form"
         ></img>
