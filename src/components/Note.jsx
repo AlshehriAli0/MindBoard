@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Card(props) {
   return (
@@ -18,6 +18,7 @@ function createCard(props) {
 
 function Note(props) {
   const data = props.dataFromApp;
+
   return (
     <section
       className="grid sm:grid-cols-2 md:grid-cols-3 gap-5  lg:grid-cols-4 lg:w-5/6

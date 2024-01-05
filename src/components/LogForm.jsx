@@ -34,13 +34,14 @@ function LogForm({ closeForm }) {
     <div
       id="form-container"
       className={
-        "flex md:mt-72 sm:mt-64 mt-80 items-center mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
+        "flex items-center  mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
       }
     >
       <img
         src={`${process.env.PUBLIC_URL}/assets/cross.png`}
         className="absolute md:h-8 h-10 space-y-12 right-4 bottom-44 md:bottom-56 mt-24 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
-        onClick={() => closeForm("")} alt="Close Form"
+        onClick={() => closeForm("")}
+        alt="Close Form"
       ></img>
       <div className="py-6 align-middle pt-10 md:mb-64 mb-40 w-96 px-8 h-80 bg-white rounded shadow-2xl">
         <label className="relative font-bold text-2xl bottom-2 left-24 sm:left-32">
