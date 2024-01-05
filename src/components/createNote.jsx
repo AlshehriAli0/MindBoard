@@ -26,7 +26,7 @@ function CreateNote({ fetchData }) {
   };
 
   return (
-    <form>
+    <form onSubmit={handleNewNote}>
       <div className="flex items-center justify-center w-screen pt-12">
         <div className="rounded-lg shadow-md bg-white float-left p-4 w-11/12 md:w-8/12 lg:5/12 xl:4/12 h-48">
           <input

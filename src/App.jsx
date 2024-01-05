@@ -27,7 +27,7 @@ function App() {
     <>
       <Navbar></Navbar>
       <CreateNote fetchData={fetchData} />
-      <Note dataFromApp={item}></Note>
+      <Note dataFromApp={item} fetchData={fetchData}></Note>
       <Footer></Footer>
     </>
   );

@@ -1,14 +1,20 @@
 import express from "express";
 import cors from "cors";
+import passport from "passport";
+import session from "express-session";
+import bcrypt from "bcryptjs";
+import { Strategy as LocalStrategy } from "passport-local";
 
 const app = express();
 const PORT = 8080;
 
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(express.static("build"));
 app.use(express.json());
 
@@ -42,9 +48,14 @@ app.post("/api/createNote", (req, res) => {
     id: notes.length + 1,
   };
   notes.push(data);
-  console.log(`Title: ${title}, Content: ${content}`);
-  console.log({ message: "Note created" });
-  console.log(notes);
+  res.json({ message: "Note created", data: notes });
+});
+
+app.post("/api/deleteNote", (req, res) => {
+  const { id } = req.body;
+  const index = notes.findIndex((note) => note.id === id);
+  notes.splice(index, 1);
+  res.json({ message: "Note deleted", data: id });
 });
 
 app.listen(PORT, () => {
