@@ -7,15 +7,19 @@ import { createPortal } from "react-dom";
 function Navbar() {
   const [currentForm, setCurrentForm] = useState(null);
 
+
   //  * render form
   const renderForm = () => {
     switch (currentForm) {
       case "login":
-        return <LogForm />;
+        return <LogForm  />;
       case "signup":
-        return <SignForm />;
+        return <SignForm closeForm={(state)=>{
+          setCurrentForm(state);
+        }} />;
+    
       default:
-        return null;
+        return <></>;
     }
   };
 
@@ -27,12 +31,18 @@ function Navbar() {
             <div className="flex justify-between h-16 px-10 shadow items-center">
               <div className="flex items-center space-x-8">
                 <h1 className="text-xl lg:text-2xl font-bold cursor-pointer">
-                  Tailwind
+                  MindBoard
                 </h1>
               </div>
               <NavBtn
                 handleButtonClicks={(form) => {
-                  setCurrentForm(form);
+                  setCurrentForm((prevForm) => {
+                    if (prevForm === form) {
+                      return null; // Close the form if it's already open
+                    } else {
+                      return form; // Open the form
+                    }
+                  });
                 }}
               />
               {createPortal(renderForm(), document.getElementById("root"))}
@@ -40,6 +50,7 @@ function Navbar() {
           </div>
         </nav>
       </header>
+      
     </>
   );
 }
