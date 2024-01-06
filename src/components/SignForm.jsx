@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function SignForm({ closeForm }) {
+function SignForm({
+  closeForm,
+  fetchData,
+  isAuthenticated,
+  setIsAuthenticated,
+}) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -20,11 +25,10 @@ function SignForm({ closeForm }) {
       password: password,
     };
 
-
     // * post request to server
     try {
       await axios
-        .post("/api/signUp", data)
+        .post("/api/signUp", data, { withCredentials: true })
         .then((response) => {
           // * clear form
           setName("");
@@ -32,6 +36,10 @@ function SignForm({ closeForm }) {
           setPassword("");
           //* close form
           closeForm("");
+          if (response.status === 200) {
+            fetchData();
+            setIsAuthenticated(true);
+          }
         });
     } catch (error) {
       console.error(error);

@@ -4,7 +4,7 @@ import axios from "axios";
 function Card(props) {
   const deleteNote = async () => {
     try {
-      await axios.post("/api/deleteNote", { id: props.id });
+      await axios.post("/api/deleteNote", { id: props.id } , { withCredentials: true });
       props.fetchData();
     } catch (error) {
       console.error(error);

@@ -8,17 +8,19 @@ import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
+import {customAlphabet} from "nanoid";
 import { v4 as uuidv4 } from "uuid";
 
 dotenv.config({ path: "../dev.env" });
 
+// * Variables
+const nanoid = customAlphabet("1234567890", 25);
 const app = express();
 const PORT = 8080;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
 const notes = [{ content: "This is a note", id: 1, title: "Note 1" }];
-
 
 // * Salting password algorithm
 function getRandomSaltRounds(min, max) {
@@ -29,7 +31,6 @@ const saltRounds = getRandomSaltRounds(
   Number(process.env.MIN),
   Number(process.env.MAX)
 );
-
 
 // * Middleware
 app.use(express.static("build"));
@@ -62,19 +63,32 @@ mongoose
   .catch((err) => console.log(err));
 
 const Schema = mongoose.Schema;
+// * User schema
 const userSchema = new Schema(
   {
     name: String,
     email: { type: String, unique: true },
     password: String,
     id: String,
+    notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Note" }],
   },
   { timestamps: true }
 );
+
+// * Note schema
+const NoteSchema = new Schema({
+  title: String,
+  content: String,
+  id: String,
+});
+
 userSchema.plugin(passportLocalMongoose);
 
 // * User model constructor
 const User = mongoose.model("mindboard", userSchema);
+
+// * Note model constructor
+const Note = mongoose.model("Note", NoteSchema);
 
 // * Passportjs config
 passport.use(User.createStrategy());
@@ -93,17 +107,26 @@ passport.deserializeUser(async (id, done) => {
 });
 
 passport.use(
-  new LocalStrategy(async function (email, password, done) {
-    console.log("Login attempt:", email, password);
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      return done(null, false, { message: "Incorrect email." });
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+    },
+    async function (email, password, done) {
+      try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+          return done(null, false, { message: "Incorrect username." });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          return done(null, false, { message: "Incorrect password." });
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
     }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return done(null, false, { message: "Incorrect password." });
-    }
-    return done(null, user);
-  })
+  )
 );
 
 // * Get Routes
@@ -111,105 +134,90 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/api/notes", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send(notes);
-  } else {
-    res.status(401).send("Not authenticated");
+app.get("/api/notes", async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate("notes");
+    res.json(user.notes);
+  } catch (err) {
+    console.error("Error during notes retrieval:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error retrieving notes", error: err.message });
   }
 });
 
 // * Post Routes
-app.post("/api/login", async (req, res, next) => {
-
-  const { email, password } = req.body;
-  console.log("Login attempt:", email, password);
-
-  try {
-    //* Find the user by email
-    const user = await User.findOne({ email: email });
-
-    if (!user) {
-      return res.status(401).send({ message: "User not found." });
-    }
-
-    //* Compare the entered password with the hashed password in the database
-    const passwordMatch = await bcrypt.compareSync(password, user.password);
-
-    if (passwordMatch) {
-      req.login(user, (err) => {
-        if (err) return next(err);
-        console.log("Login attempt:", email, password, "successful");
-        return res.send({ message: "Login auth successful" });
-      });
-    } else {
-      
-      return res.status(401).send({ message: "Incorrect password." });
-    }
-  } catch (error) {
-    console.error("Login error:", error);
-    return res
-      .status(500)
-      .json({ message: "Error during login", error: error.message });
+app.post("/api/login", passport.authenticate("local"), (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log("Login attempt successful");
+    res.status(200).json({ message: "Login successful" });
+  } else {
+    console.log("Login attempt unsuccessful");
+    res.status(401).send("Not authenticated");
   }
 });
 
 app.post("/api/signUp", async (req, res) => {
-  
   const { name, email, password } = req.body;
   console.log("Signup attempt:", name, email, password);
 
   // *hashing password
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
   console.log("Hashed Password:", hashedPassword);
-  console.log(
-    "dehashed password:",
-    bcrypt.compareSync(password, hashedPassword)
-  );
+  console.log("compare:", bcrypt.compareSync(password, hashedPassword));
   // *creating new user and saving
-  const newUser = new User({
-    name: name,
-    email: email,
-    password: hashedPassword,
-    id: uuidv4(),
-  });
-
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
-    res.send({ message: "Sign up successful" });
-    console.log("Signup successful");
+
+    res.status(201).json({ message: "Sign up successful" });
   } catch (err) {
-    console.error(
-      "Error during signup:",
-      err,
-      err.message,
-      "name:",
-      name,
-      "email:",
-      email,
-      "password:",
-      password
-    );
+    console.error("Error during signup:", err.message);
     res.status(500).json({ message: "Error signing up", error: err.message });
   }
 });
 
-app.post("/api/createNote", (req, res) => {
+app.post("/api/createNote", async (req, res) => {
   const { title, content } = req.body;
-  const data = {
-    content: content,
-    title: title,
-    id: uuidv4(),
-  };
-  notes.push(data);
-  res.json({ message: "Note created", data: notes });
+  let id = nanoid();
+  try {
+    const newNote = new Note({
+      title,
+      content,
+      id: id,
+    });
+    await newNote.save();
+
+    const user = await User.findById(req.user._id);
+    user.notes.push(newNote);
+    await user.save();
+
+    res.status(201).json({ message: "Note created", data: newNote });
+  } catch (err) {
+    console.error("Error during note creation:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error creating note", error: err.message });
+  }
 });
 
-app.post("/api/deleteNote", (req, res) => {
+app.post("/api/deleteNote", async (req, res) => {
   const { id } = req.body;
-  const index = notes.findIndex((note) => note.id === id);
-  notes.splice(index, 1);
-  res.json({ message: "Note deleted", data: id });
+
+   try {
+     await Note.findOneAndDelete({ id: id });
+     res.json({ message: "Note deleted", data: id });
+   } catch (err) {
+     console.error("Error during note deletion:", err.message);
+     res
+       .status(500)
+       .json({ message: "Error deleting note", error: err.message });
+   }
 });
 
 app.listen(PORT, () => {

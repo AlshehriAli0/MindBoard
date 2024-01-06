@@ -14,12 +14,14 @@ function CreateNote({ fetchData }) {
       content: content,
     };
     try {
-      await axios.post("/api/createNote", data).then(() => {
-        setTitle("");
-        setContent("");
-        console.log(data);
-        fetchData();
-      });
+      await axios
+        .post("/api/createNote", data, { withCredentials: true })
+        .then(() => {
+          setTitle("");
+          setContent("");
+          console.log(data);
+          fetchData();
+        });
     } catch (error) {
       console.error(error);
     }

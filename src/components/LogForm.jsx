@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function LogForm({ closeForm }) {
+function LogForm({
+  closeForm,
+  fetchData,
+  isAuthenticated,
+  setIsAuthenticated,
+}) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -19,7 +24,9 @@ function LogForm({ closeForm }) {
     console.log(data);
     try {
       await axios
-        .post("http://localhost:8080/api/login", data)
+        .post("http://localhost:8080/api/login", data, {
+          withCredentials: true,
+        })
         .then((response) => {
           console.log(response.data);
 
@@ -28,6 +35,12 @@ function LogForm({ closeForm }) {
           setPassword("");
           //* close form
           closeForm("");
+
+          // * fetch data
+          if (response.status === 200) {
+            fetchData();
+            setIsAuthenticated(true);
+          }
         });
     } catch (error) {
       console.error(error);

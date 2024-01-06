@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import LogForm from "./LogForm";
 import SignForm from "./SignForm";
 
-function Navbar() {
+function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
   const [currentForm, setCurrentForm] = useState(null);
 
   const handleButtonClick = (form) => {
@@ -13,9 +13,23 @@ function Navbar() {
   const renderForm = () => {
     switch (currentForm) {
       case "login":
-        return <LogForm closeForm={() => setCurrentForm(null)} />;
+        return (
+          <LogForm
+            fetchData={fetchData}
+            closeForm={() => setCurrentForm(null)}
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        );
       case "signup":
-        return <SignForm closeForm={() => setCurrentForm(null)} />;
+        return (
+          <SignForm
+            fetchData={fetchData}
+            closeForm={() => setCurrentForm(null)}
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        );
       default:
         return <></>;
     }
