@@ -13,18 +13,22 @@ function LogForm({ closeForm }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
-      action: "login",
       email: email,
       password: password,
     };
     console.log(data);
     try {
-      const response = await axios.post("/api/login", data);
-      console.log(response.data);
+      await axios
+        .post("http://localhost:8080/api/login", data)
+        .then((response) => {
+          console.log(response.data);
 
-      // * clear form
-      setEmail("");
-      setPassword("");
+          // * clear form
+          setEmail("");
+          setPassword("");
+          //* close form
+          closeForm("");
+        });
     } catch (error) {
       console.error(error);
     }
@@ -92,7 +96,7 @@ function LogForm({ closeForm }) {
               id="password"
               placeholder=""
               className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
-              value={password.length > 6 ? password : null}
+              value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}

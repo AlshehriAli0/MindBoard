@@ -15,24 +15,24 @@ function SignForm({ closeForm }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
-      action: "signup",
       name: name,
       email: email,
       password: password,
     };
-    console.log(data);
+
 
     // * post request to server
     try {
-      const response = await axios.post("/api/signUp", data);
-      console.log(response.data);
-
-      // * clear form
-      setName("");
-      setEmail("");
-      setPassword("");
-      //* close form
-      closeForm("");
+      await axios
+        .post("/api/signUp", data)
+        .then((response) => {
+          // * clear form
+          setName("");
+          setEmail("");
+          setPassword("");
+          //* close form
+          closeForm("");
+        });
     } catch (error) {
       console.error(error);
     }
