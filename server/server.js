@@ -16,7 +16,7 @@ dotenv.config({ path: "../dev.env" });
 // * Variables
 const nanoid = customAlphabet("1234567890", 25);
 const app = express();
-const PORT = 8080;
+const PORT = 8080 || process.env.PORT;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
@@ -50,6 +50,7 @@ app.use(
     secret: Secret,
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 },
   })
 );
 
@@ -132,6 +133,21 @@ passport.use(
 // * Get Routes
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.get("/api/logout", (req, res) => {});
+
+app.get("/api/user", async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user.name);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 app.get("/api/notes", async (req, res) => {

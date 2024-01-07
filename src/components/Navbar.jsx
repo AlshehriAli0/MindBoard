@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import LogForm from "./LogForm";
 import SignForm from "./SignForm";
+import UserBtn from "./userBtn";
 
 function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
   const [currentForm, setCurrentForm] = useState(null);
@@ -35,19 +36,31 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
     }
   };
 
+  const renderNavBtn = () => {
+    if (!isAuthenticated) {
+      return (
+        <NavBtn
+          handleButtonClick={handleButtonClick}
+          currentForm={currentForm}
+        />
+      );
+    } else {
+      return <UserBtn />;
+    }
+  };
+
   return (
     <>
       <nav>
         <div className="flex justify-between h-16 px-10 shadow items-center">
           <div className="flex items-center space-x-8">
-            <h1 className="text-xl text-gray-800 lg:text-2xl font-bold cursor-pointer">
+            <h1 className="text-xl text-gray-900 lg:text-2xl font-bold cursor-pointer">
               MindBoard
             </h1>
           </div>
-          <NavBtn
-            handleButtonClick={handleButtonClick}
-            currentForm={currentForm}
-          />
+
+          {renderNavBtn()}
+
           {createPortal(renderForm(), document.getElementById("root"))}
         </div>
       </nav>
@@ -60,7 +73,7 @@ function NavBtn({ handleButtonClick, currentForm }) {
     <div className="flex space-x-4 items-center">
       <button
         onClick={() => handleButtonClick("login")}
-        className={`text-gray-800 bg-gray-200 px-5 py-2 rounded transition hover:bg-gray-300 duration-300 font-semibold text-sm ${
+        className={`text-gray-800 bg-gray-200 px-5 py-2 border border-solid border-black rounded transition hover:bg-gray-900 hover:text-white duration-300 font-semibold text-sm ${
           currentForm === "login" ? "scale-110" : ""
         }`}
       >
@@ -68,11 +81,11 @@ function NavBtn({ handleButtonClick, currentForm }) {
       </button>
       <button
         onClick={() => handleButtonClick("signup")}
-        className={`bg-yellow-500 px-4 py-2 rounded text-white transition hover:bg-yellow-600 duration-300 font-semibold text-sm ${
+        className={`text-white bg-gray-800 px-5 py-2 rounded transition hover:bg-gray-900 duration-300 font-semibold text-sm ${
           currentForm === "signup" ? "scale-110" : ""
         }`}
       >
-        SIGNUP
+        Sign Up
       </button>
     </div>
   );
