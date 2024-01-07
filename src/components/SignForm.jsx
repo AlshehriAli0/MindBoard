@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { LineWave } from "react-loader-spinner";
 
-function SignForm({
-  closeForm,
-  fetchData,
-  isAuthenticated,
-  setIsAuthenticated,
-}) {
+function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -15,10 +11,13 @@ function SignForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // * post request to server
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+
     const data = {
       name: name,
       email: email,
@@ -27,6 +26,7 @@ function SignForm({
 
     // * post request to server
     try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       await axios
         .post("/api/signUp", data, { withCredentials: true })
         .then((response) => {
@@ -44,14 +44,32 @@ function SignForm({
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   return (
     <>
+      {isLoading && (
+        <div className="w-screen h-screen flex justify-center bg-black bg-opacity-60 items-center fixed z-50">
+          <LineWave
+            className=""
+            visible={true}
+            height="100"
+            width="100"
+            color="#ffffff"
+            ariaLabel="line-wave-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            firstLineColor=""
+            middleLineColor=""
+            lastLineColor=""
+          />
+        </div>
+      )}{" "}
       <div
         id="form-container"
         className={
-          "flex md:mt-72 sm:mt-64 mt-80 items-center mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
+          "flex mt-80 items-center mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
         }
       >
         <img
@@ -162,7 +180,7 @@ function SignForm({
             <button
               type="submit"
               form="SignUpForm"
-              className="cursor-pointer py-2 px-4 block mt-6 bg-indigo-500 text-white font-bold w-full text-center rounded"
+              className="text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white duration-300 font-semibold text-sm"
             >
               Sign Up
             </button>

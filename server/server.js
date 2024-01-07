@@ -9,6 +9,7 @@ import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
 import {customAlphabet} from "nanoid";
+import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
 dotenv.config({ path: "../dev.env" });
@@ -132,7 +133,7 @@ passport.use(
 
 // * Get Routes
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  
 });
 
 app.get("/api/logout", (req, res) => {});
