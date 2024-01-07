@@ -67,7 +67,7 @@ function App() {
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
           />
-          {/* <Intro isAuthenticated={isAuthenticated} /> */}
+          <Intro isAuthenticated={isAuthenticated} />
           <CreateNote fetchData={fetchData} isAuthenticated={isAuthenticated} />
 
           <Note dataFromApp={item} fetchData={fetchData} />
