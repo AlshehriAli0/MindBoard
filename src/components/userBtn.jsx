@@ -23,9 +23,6 @@ function UserBtn({ fetchData }) {
   const handleLogout = async () => {
   try {
     await axios.get('/api/logout', { withCredentials: true });
-    setUser("");
-    setEmail("");
-    setDate("");
     window.location.reload();
   } catch (err) {
     console.error(err);
@@ -57,7 +54,7 @@ function UserBtn({ fetchData }) {
 
   return (
     <>
-      <div className="relative">
+      <div className="relative mr-2 md:mr-0 ">
         <button
           onClick={toggleMenu}
           className={`text-white animate-fade-left animate-duration-[1500ms] animate-delay-[550ms] animate-ease-out bg-gray-800 flex items-center px-5 py-1 border border-solid border-gray-800 rounded transition hover:bg-gray-900 duration-300 font-semibold text-sm ${
@@ -72,7 +69,7 @@ function UserBtn({ fetchData }) {
           <p className="text-lg pt-1">{user}</p>
         </button>
         <div
-          className={`absolute top-full left-0 mt-2 z-50 ${
+          className={`absolute top-full  left-0 mt-2 z-50 ${
             isMenuOpen ? "animate-fade-up" : "hidden"
           } animate-duration-[200ms] animate-ease-out animate-normal bg-gray-800 border border-gray-700 rounded-md shadow-md`}
         >
