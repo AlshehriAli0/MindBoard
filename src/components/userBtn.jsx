@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Account from "./Account";
 
-function UserBtn() {
+function UserBtn({fetchData}) {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
@@ -88,7 +88,9 @@ function UserBtn() {
         </div>
       </div>
 
-      {showAccount && <Account name={user} email={email} date={date} />}
+      {showAccount && (
+        <Account fetchData={fetchData} name={user} email={email} date={date} />
+      )}
     </>
   );
 }

@@ -45,7 +45,7 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
         />
       );
     } else {
-      return <UserBtn />;
+      return <UserBtn fetchData={fetchData} />;
     }
   };
 
