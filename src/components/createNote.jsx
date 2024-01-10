@@ -20,7 +20,9 @@ function CreateNote({ fetchData, isAuthenticated }) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       await axios
-        .post("/api/createNote", data, { withCredentials: true })
+        .post("/api/createNote", data, {
+          withCredentials: true,
+        })
         .then(() => {
           setTitle("");
           setContent("");
@@ -36,7 +38,7 @@ function CreateNote({ fetchData, isAuthenticated }) {
   return (
     <>
       {isLoading && (
-        <div className="w-screen h-screen flex justify-center bg-black bg-opacity-60 items-center fixed z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 z-50">
           <LineWave
             className=""
             visible={true}
@@ -44,18 +46,13 @@ function CreateNote({ fetchData, isAuthenticated }) {
             width="100"
             color="#ffffff"
             ariaLabel="line-wave-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            firstLineColor=""
-            middleLineColor=""
-            lastLineColor=""
           />
         </div>
       )}
       {isAuthenticated ? (
         <form onSubmit={handleNewNote}>
           <div className="flex items-center justify-center w-screen pt-12">
-            <div className="rounded-lg shadow-md bg-white float-left p-4 w-11/12 md:w-8/12 lg:5/12 xl:4/12 h-48">
+            <div className="relative rounded-lg shadow-md bg-white float-left p-4 w-11/12 md:w-8/12 lg:5/12 xl:4/12 h-48">
               <input
                 required
                 name="title"
@@ -82,10 +79,16 @@ function CreateNote({ fetchData, isAuthenticated }) {
                   setContent(e.target.value);
                 }}
               />
+              
+                <button
+                  type="submit"
+                  className="absolute bottom-0 right-0 mr-2 mb-2 text-gray-800 animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out bg-transparent sm:px-5 sm:py-2 px-5 py-2 border border-solid border-gray-800 rounded transition hover:bg-gray-900 hover:text-white duration-300 scale-125 font-semibold text-lg"
+                  onClick={handleNewNote}
+                >
+                  Submit
+                </button>
+              
             </div>
-            <button type="submit" className="" onClick={handleNewNote}>
-              ferggeregrgr
-            </button>
           </div>
         </form>
       ) : (

@@ -57,9 +57,9 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
             <img
               src={`${process.env.PUBLIC_URL}/assets/board.png`}
               alt="board"
-              className="h-8"
+              className="h-8 animate-fade-right animate-duration-[1500ms] animate-delay-[600ms] animate-ease-out"
             />
-            <h1 className="text-xl text-gray-900 lg:text-2xl font-bold cursor-pointer">
+            <h1 className="text-xl animate-fade-right animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out text-gray-900 lg:text-2xl font-bold cursor-pointer">
               MindBoard
             </h1>
           </div>
@@ -78,7 +78,7 @@ function NavBtn({ handleButtonClick, currentForm }) {
     <div className="flex space-x-2 sm:space-x-4 items-center">
       <button
         onClick={() => handleButtonClick("login")}
-        className={`text-gray-800 bg-gray-200 sm:px-5 sm:py-2 px-3 py-2 border border-solid border-gray-800 rounded transition hover:bg-gray-900 hover:text-white duration-300 font-semibold text-sm ${
+        className={`text-gray-800 animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out bg-gray-200 sm:px-5 sm:py-2 px-3 py-2 border border-solid border-gray-800 rounded transition hover:bg-gray-900 hover:text-white duration-300 font-semibold text-sm ${
           currentForm === "login" ? "scale-110" : ""
         }`}
       >
@@ -86,7 +86,7 @@ function NavBtn({ handleButtonClick, currentForm }) {
       </button>
       <button
         onClick={() => handleButtonClick("signup")}
-        className={`text-white bg-gray-800 sm:px-5 sm:py-2 px-3 py-2 border border-solid border-gray-800 rounded transition hover:bg-gray-900 duration-300 font-semibold text-sm ${
+        className={`text-white animate-fade-left animate-duration-[1500ms] animate-delay-[550ms] animate-ease-out bg-gray-800 sm:px-5 sm:py-2 px-3 py-2 border border-solid border-gray-800 rounded transition hover:bg-gray-900 duration-300 font-semibold text-sm ${
           currentForm === "signup" ? "scale-110" : ""
         }`}
       >

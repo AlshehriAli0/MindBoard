@@ -36,7 +36,8 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
           setPassword("");
           //* close form
           closeForm("");
-          if (response.status === 200) {
+
+          if (response.data.authenticated ) {
             fetchData();
             setIsAuthenticated(true);
           }
@@ -50,7 +51,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
   return (
     <>
       {isLoading && (
-        <div className="w-screen h-screen flex justify-center bg-black bg-opacity-60 items-center fixed z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 z-50">
           <LineWave
             className=""
             visible={true}
@@ -97,14 +98,14 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
                   isFocusedN || name ? "transform -translate-y-6 scale-75" : ""
                 }`}
               >
-                Name
+                First Name
               </label>
               <input
                 required
                 type="text"
                 name="name"
                 id="name"
-                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
+                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
@@ -129,7 +130,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
                 type="email"
                 name="email"
                 id="email"
-                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
+                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -157,7 +158,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
                 name="password"
                 id="password"
                 placeholder=""
-                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
+                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -180,7 +181,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
             <button
               type="submit"
               form="SignUpForm"
-              className="text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white duration-300 font-semibold text-sm"
+              className="text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-sm "
             >
               Sign Up
             </button>

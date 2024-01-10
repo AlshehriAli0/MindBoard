@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
 
-
 function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
@@ -26,7 +25,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       await axios
-        .post("http://localhost:8080/api/login", data, {
+        .post("/api/login", data, {
           withCredentials: true,
         })
         .then((response) => {
@@ -35,11 +34,12 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
           // * clear form
           setEmail("");
           setPassword("");
+
           //* close form
           closeForm("");
 
           // * fetch data
-          if (response.status === 200) {
+          if (response.data.authenticated) {
             fetchData();
             setIsAuthenticated(true);
           }
@@ -53,7 +53,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
   return (
     <>
       {isLoading && (
-        <div className="w-screen h-screen flex justify-center bg-black bg-opacity-60 items-center fixed z-50">
+        <div className=" fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 z-50">
           <LineWave
             className=""
             visible={true}
@@ -101,7 +101,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
                 type="email"
                 name="email"
                 id="email"
-                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
+                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -124,12 +124,13 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
                 Password
               </label>
               <input
+                required
                 minLength={6}
                 type={showPassword ? "text" : "password"}
                 name="password"
                 id="password"
                 placeholder=""
-                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent"
+                className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -152,7 +153,9 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
             <button
               type="submit"
               form="loginForm"
-              className="text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white duration-300 font-semibold text-sm"
+              className={
+                "text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-sm  "
+              }
             >
               Login
             </button>

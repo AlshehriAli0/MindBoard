@@ -18,7 +18,6 @@ function LandingPage({ handleGetStarted }) {
       <div
         id="landing-container"
         className="w-screen min-h-screen bg-opacity-50"
-        
       >
         <div
           id="landing-content"
@@ -26,13 +25,13 @@ function LandingPage({ handleGetStarted }) {
         >
           <h1
             id="landing-title"
-            className="sm:text-6xl text-5xl font-bold mb-4 animate-bounce align-middle"
+            className="sm:text-6xl text-5xl font-bold mb-4 animate-fade animate-duration-[2000ms] animate-delay-[400ms] animate-ease-out align-middle"
           >
             Welcome to MindBoard
           </h1>
           <p
             id="landing-text"
-            className="md:w-10/12 w-11/12 mx-auto md:text-3xl text-xl font-bold mb-8"
+            className="md:w-10/12 w-11/12 mx-auto md:text-3xl text-xl font-bold mb-8 animate-fade-down animate-duration-[1500ms] animate-delay-[600ms] animate-ease-out"
           >
             Elevate your{" "}
             <span className="text-orange-900 md:text-4xl text-2xl md:px-4 px-2 ">
@@ -41,12 +40,13 @@ function LandingPage({ handleGetStarted }) {
             with MindBoard. Channel your creativity into organized, simple, and
             profound notes. Click below to get started.
           </p>
+
           <button
             onClick={() => {
               handleGetStarted();
             }}
             id="landing-btn"
-            className="text-white bg-gray-800 px-9 py-3 rounded transition hover:bg-gray-900 duration-300 font-semibold text-lg"
+            className="text-white bg-gray-800 px-9 py-3 rounded transition hover:bg-gray-900 active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-lg animate-fade-up animate-duration-[1500ms] animate-delay-[600ms] animate-ease-out"
           >
             Get Started
           </button>

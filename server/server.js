@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
-import {customAlphabet} from "nanoid";
+import { customAlphabet } from "nanoid";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
@@ -65,6 +65,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const Schema = mongoose.Schema;
+
 // * User schema
 const userSchema = new Schema(
   {
@@ -73,6 +74,7 @@ const userSchema = new Schema(
     password: String,
     id: String,
     notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Note" }],
+    createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
@@ -132,9 +134,7 @@ passport.use(
 );
 
 // * Get Routes
-app.get("/", (req, res) => {
-  
-});
+app.get("/", (req, res) => {});
 
 app.get("/api/logout", (req, res) => {});
 
@@ -144,7 +144,8 @@ app.get("/api/user", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json(user.name);
+    res.json({ name: user.name, email: user.email, date: user.createdAt });
+    console.log("user,", user.name, user.email, user.createdAt);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -167,10 +168,10 @@ app.get("/api/notes", async (req, res) => {
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
   if (req.isAuthenticated()) {
     console.log("Login attempt successful");
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ authenticated: true, message: "Login successful" });
   } else {
     console.log("Login attempt unsuccessful");
-    res.status(401).send("Not authenticated");
+    res.status(401).send({ authenticated: true, message: "Not authenticated" });
   }
 });
 
@@ -182,6 +183,7 @@ app.post("/api/signUp", async (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
   console.log("Hashed Password:", hashedPassword);
   console.log("compare:", bcrypt.compareSync(password, hashedPassword));
+
   // *creating new user and saving
   try {
     const existingUser = await User.findOne({ email });
@@ -189,10 +191,24 @@ app.post("/api/signUp", async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
 
+    // *  saving
     const newUser = new User({ name, email, password: hashedPassword });
+    newUser.createdAt = new Date();
     await newUser.save();
 
-    res.status(201).json({ message: "Sign up successful" });
+    // *logging in user automatically after signup
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error("Error during login after signup:", err.message);
+        res
+          .status(500)
+          .json({ message: "Error signing up", error: err.message });
+      } else {
+        res
+          .status(201)
+          .json({ authenticated: true, message: "Sign up successful" });
+      }
+    });
   } catch (err) {
     console.error("Error during signup:", err.message);
     res.status(500).json({ message: "Error signing up", error: err.message });
@@ -226,17 +242,19 @@ app.post("/api/createNote", async (req, res) => {
 app.post("/api/deleteNote", async (req, res) => {
   const { id } = req.body;
 
-   try {
-     await Note.findOneAndDelete({ id: id });
-     res.json({ message: "Note deleted", data: id });
-   } catch (err) {
-     console.error("Error during note deletion:", err.message);
-     res
-       .status(500)
-       .json({ message: "Error deleting note", error: err.message });
-   }
+  try {
+    await Note.findOneAndDelete({ id: id });
+    res.json({ message: "Note deleted", data: id });
+  } catch (err) {
+    console.error("Error during note deletion:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error deleting note", error: err.message });
+  }
 });
 
+
+// * server listening
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

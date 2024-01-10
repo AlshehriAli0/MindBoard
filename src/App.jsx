@@ -19,10 +19,16 @@ function App() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const result = await axios.get("/api/notes", { withCredentials: true });
+      const result = await axios.get("/api/notes", {
+        withCredentials: true,
+      });
       setItem(result.data);
       console.log("Data fetched");
       console.log(isAuthenticated);
+      result.status === 200
+        ? setIsAuthenticated(true)
+        : setIsAuthenticated(false);
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (err) {
       console.log(err);
@@ -58,7 +64,7 @@ function App() {
           />
         </div>
       )}
-      {showLandingPage ? (
+      {showLandingPage && !isAuthenticated ? (
         <LandingPage handleGetStarted={handleGetStarted} />
       ) : (
         <>

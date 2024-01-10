@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Button,
-} from "@material-tailwind/react";
+import Account from "./Account";
 
 function UserBtn() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const toggleAccount = () => {
+    setShowAccount((prev) => !prev);
+  };
 
   const getUserName = async () => {
     try {
       await axios
-        .get("http://localhost:8080/api/user", {
+        .get("/api/user", {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res.data);
-          setUser(res.data);
+          console.log(res.data.name);
+          setUser(res.data.name);
+          setEmail(res.data.email);
+          setDate(res.data.date);
         });
     } catch (err) {
       console.error(err);
@@ -32,23 +40,55 @@ function UserBtn() {
 
   return (
     <>
-      <Menu
-        animate={{
-          mount: { y: 0 },
-          unmount: { y: 25 },
-        }}
-      >
-        <MenuHandler>
-          <Button className="bg-gray-900"> Menu</Button>
-        </MenuHandler>
-        <MenuList>
-          <MenuItem>
-            Welcome <span className="text-black font-semibold">{user}</span>{" "}
-          </MenuItem>
-          <MenuItem>Menu Item 2</MenuItem>
-          <MenuItem>Menu Item 3</MenuItem>
-        </MenuList>
-      </Menu>
+      <div className="relative">
+        <button
+          onClick={toggleMenu}
+          className={`text-white animate-fade-left animate-duration-[1500ms] animate-delay-[550ms] animate-ease-out bg-gray-800 flex items-center px-5 py-1 border border-solid border-gray-800 rounded transition hover:bg-gray-900 duration-300 font-semibold text-sm ${
+            isMenuOpen ? "bg-gray-900" : ""
+          }`}
+        >
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/user.png`}
+            className="h-5 mr-2"
+            alt="User img"
+          />
+          <p className="text-lg pt-1">{user}</p>
+        </button>
+        <div
+          className={`absolute top-full left-0 mt-2 z-50 ${
+            isMenuOpen ? "animate-fade-up" : "hidden"
+          } animate-duration-[200ms] animate-ease-out animate-normal bg-gray-800 border border-gray-700 rounded-md shadow-md`}
+        >
+          <button
+            onClick={toggleAccount}
+            className="block px-5 py-2 text-white rounded transition hover:bg-gray-900 duration-300 focus:outline-none"
+          >
+            <div className="flex items-center justify-center">
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/skills.png`}
+                alt="Account"
+                className="h-5 mr-1"
+              />
+              <p className="pt-1">Account</p>
+            </div>
+          </button>
+          <hr className="w-9/12 mx-auto" />
+
+          <button className="block px-5 py-2 text-white rounded transition hover:bg-gray-900 duration-300 focus:outline-none">
+            <div className="flex items-center justify-center">
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/logout.png`}
+                alt=""
+                className="h-4 mr-2"
+              />
+              <p className="">LogOut</p>
+            </div>
+          </button>
+          <hr className="w-9/12 mx-auto" />
+        </div>
+      </div>
+
+      {showAccount && <Account name={user} email={email} date={date} />}
     </>
   );
 }
