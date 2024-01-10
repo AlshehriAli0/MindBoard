@@ -631,6 +631,10 @@ video {
   bottom: 0px;
 }
 
+.bottom-12 {
+  bottom: 3rem;
+}
+
 .bottom-2 {
   bottom: 0.5rem;
 }
@@ -771,22 +775,6 @@ video {
   top: 100%;
 }
 
-.bottom-8 {
-  bottom: 2rem;
-}
-
-.bottom-12 {
-  bottom: 3rem;
-}
-
-.bottom-3 {
-  bottom: 0.75rem;
-}
-
-.bottom-1 {
-  bottom: 0.25rem;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -899,6 +887,10 @@ video {
   margin-left: 0.25rem;
 }
 
+.ml-16 {
+  margin-left: 4rem;
+}
+
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -951,10 +943,6 @@ video {
   margin-top: 2.5rem;
 }
 
-.mt-12 {
-  margin-top: 3rem;
-}
-
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -967,6 +955,10 @@ video {
   margin-top: 1rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-80 {
   margin-top: 20rem;
 }
@@ -975,20 +967,12 @@ video {
   margin-top: 1px;
 }
 
-.ml-24 {
-  margin-left: 6rem;
+.ml-14 {
+  margin-left: 3.5rem;
 }
 
-.ml-20 {
-  margin-left: 5rem;
-}
-
-.ml-16 {
-  margin-left: 4rem;
-}
-
-.mt-28 {
-  margin-top: 7rem;
+.ml-12 {
+  margin-left: 3rem;
 }
 
 .box-border {
@@ -1894,6 +1878,10 @@ video {
   border-bottom-width: 1px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-l-2 {
   border-left-width: 2px;
 }
@@ -1981,6 +1969,11 @@ video {
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(224 224 224 / var(--tw-border-opacity));
+}
+
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(158 158 158 / var(--tw-border-opacity));
 }
 
 .border-gray-700 {
@@ -2396,6 +2389,10 @@ video {
   background-color: rgb(255 235 59 / 0.2);
 }
 
+.bg-opacity-10 {
+  --tw-bg-opacity: 0.1;
+}
+
 .bg-opacity-5 {
   --tw-bg-opacity: 0.05;
 }
@@ -2410,6 +2407,10 @@ video {
 
 .bg-opacity-80 {
   --tw-bg-opacity: 0.8;
+}
+
+.bg-opacity-20 {
+  --tw-bg-opacity: 0.2;
 }
 
 .bg-gradient-to-tr {
@@ -2763,11 +2764,6 @@ video {
   padding-bottom: 1.5rem;
 }
 
-.px-12 {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-
 .\!pr-7 {
   padding-right: 1.75rem !important;
 }
@@ -2939,6 +2935,10 @@ video {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 .\!leading-tight {
@@ -3695,6 +3695,10 @@ video {
 
 .animate-duration-\[200ms\] {
   animation-duration: 200ms;
+}
+
+.animate-duration-\[500ms\] {
+  animation-duration: 500ms;
 }
 
 .animate-duration-\[600ms\] {
@@ -6199,6 +6203,10 @@ video {
 
   .sm\:left-32 {
     left: 8rem;
+  }
+
+  .sm\:ml-16 {
+    margin-left: 4rem;
   }
 
   .sm\:w-96 {

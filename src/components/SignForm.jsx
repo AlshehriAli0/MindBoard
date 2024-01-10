@@ -13,13 +13,25 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // * capitalize first letter
+ function capitalizeFirstLetter(string) {
+   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+ }
+
   // * post request to server
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
+    // Check if name contains only letters
+    if (!/^[a-zA-Z]+$/.test(name)) {
+      alert("Name must contain only letters");
+      setIsLoading(false);
+      return;
+    }
+    
     const data = {
-      name: name,
+      name: capitalizeFirstLetter(name),
       email: email,
       password: password,
     };
@@ -37,7 +49,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
           //* close form
           closeForm("");
 
-          if (response.data.authenticated ) {
+          if (response.data.authenticated) {
             fetchData();
             setIsAuthenticated(true);
           }

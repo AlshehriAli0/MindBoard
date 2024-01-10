@@ -136,7 +136,14 @@ passport.use(
 // * Get Routes
 app.get("/", (req, res) => {});
 
-app.get("/api/logout", (req, res) => {});
+app.get("/api/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Error logging out" });
+    }
+    res.status(200).json({ message: "Logged out successfully" });
+  });
+});
 
 app.get("/api/user", async (req, res) => {
   try {
@@ -145,7 +152,6 @@ app.get("/api/user", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     res.json({ name: user.name, email: user.email, date: user.createdAt });
-    console.log("user,", user.name, user.email, user.createdAt);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -253,6 +259,41 @@ app.post("/api/deleteNote", async (req, res) => {
   }
 });
 
+app.post("/api/updateUser", async (req, res) => {
+  const { name, email } = req.body;
+
+  // * updating user
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (email && email !== user.email) {
+      const emailExists = await User.findOne({ email });
+
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already in use" });
+      }
+
+      user.email = email;
+    }
+
+    if (name && name !== user.name && name.trim() !== "") {
+      user.name = name;
+    }
+
+    await user.save();
+
+    res.status(200).json({ message: "User updated successfully" });
+  } catch (err) {
+    console.error("Error updating user:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error updating user", error: err.message });
+  }
+});
 
 // * server listening
 app.listen(PORT, () => {
