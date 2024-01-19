@@ -12,16 +12,18 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // * capitalize first letter
- function capitalizeFirstLetter(string) {
-   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
- }
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
 
   // * post request to server
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    setErrorMessage("");
 
     // Check if name contains only letters
     if (!/^[a-zA-Z]+$/.test(name)) {
@@ -29,7 +31,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
       setIsLoading(false);
       return;
     }
-    
+
     const data = {
       name: capitalizeFirstLetter(name),
       email: email,
@@ -55,6 +57,13 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
           }
         });
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Email already in use!");
+      } else {
+        setErrorMessage(
+          "An error occurred during Sign Up. Please try again later."
+        );
+      }
       console.error(error);
     }
     setIsLoading(false);
@@ -106,7 +115,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
             <div className="mb-6 relative">
               <label
                 htmlFor="text"
-                className={`absolute left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
+                className={`absolute cursor-text left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
                   isFocusedN || name ? "transform -translate-y-6 scale-75" : ""
                 }`}
               >
@@ -131,7 +140,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
             <div className="mb-6 relative">
               <label
                 htmlFor="email"
-                className={`absolute left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
+                className={`absolute cursor-text left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
                   isFocusedE || email ? "transform -translate-y-6 scale-75" : ""
                 }`}
               >
@@ -153,10 +162,10 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
             </div>
 
             {/* //* Password */}
-            <div className="mb-6 relative">
+            <div className="mb-6 relative pb-4">
               <label
                 htmlFor="password"
-                className={`absolute left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
+                className={`absolute cursor-text left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
                   isFocusedP || password
                     ? "transform -translate-y-6 scale-75"
                     : ""
@@ -189,6 +198,11 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
                 className="opacity-50 p-1 absolute right-1.5 top-3.5 align-middle rounded-full transition hover:bg-gray-100 duration-500 text-gray-500 cursor-pointer h-8 img"
                 onClick={() => setShowPassword(!showPassword)}
               />
+              {errorMessage && (
+                <div className="text-red-500 text-sm absolute pt-3 top-12 z-50">
+                  {errorMessage}
+                </div>
+              )}
             </div>
             <button
               type="submit"

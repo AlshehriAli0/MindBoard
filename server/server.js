@@ -9,7 +9,6 @@ import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
 import { customAlphabet } from "nanoid";
-import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
 dotenv.config({ path: "../dev.env" });
@@ -89,7 +88,7 @@ const NoteSchema = new Schema({
 userSchema.plugin(passportLocalMongoose);
 
 // * User model constructor
-const User = mongoose.model("mindboard", userSchema);
+const User = mongoose.model("User", userSchema);
 
 // * Note model constructor
 const Note = mongoose.model("Note", NoteSchema);
@@ -194,7 +193,7 @@ app.post("/api/signUp", async (req, res) => {
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
+      return res.status(401).json({ message: "Email already in use" });
     }
 
     // *  saving
