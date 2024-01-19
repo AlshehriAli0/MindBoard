@@ -193,8 +193,6 @@ app.post("/api/signUp", async (req, res) => {
 
   // *hashing password
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
-  console.log("Hashed Password:", hashedPassword);
-  console.log("compare:", bcrypt.compareSync(password, hashedPassword));
 
   // *creating new user and saving
   try {
