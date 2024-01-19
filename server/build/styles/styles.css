@@ -1,0 +1,43 @@
+html {
+    background-color: rgb(225, 225, 225);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.transition-transform {
+    transition: transform 0.3s ease-out;
+}
+
+.focused-label {
+    transform: translateY(-1.5rem) scale(0.8);
+}
+
+
+#landing-container {
+    background-image:  url("../assets/cartographer\(1\).png");
+
+}
+
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation: fade-out 0.5s forwards;
+}
