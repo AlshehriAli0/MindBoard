@@ -67,4 +67,4 @@ Feel free to contribute by opening issues or creating pull requests. Your input 
 
 ## License 📄
 
-This project is licensed under the [GNU General Public License (GPL)](LICENSE).
+This project is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International License (CC BY-NC-ND 4.0)](LICENSE).
