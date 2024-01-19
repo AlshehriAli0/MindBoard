@@ -69,7 +69,7 @@ function UserBtn({ fetchData }) {
           <p className="text-lg pt-1">{user}</p>
         </button>
         <div
-          className={`absolute top-full  left-0 mt-2 z-50 ${
+          className={`absolute top-full  left-0 mt-2 z-40 ${
             isMenuOpen ? "animate-fade-up" : "hidden"
           } animate-duration-[200ms] animate-ease-out animate-normal bg-gray-800 border border-gray-700 rounded-md shadow-md`}
         >

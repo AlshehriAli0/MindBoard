@@ -47,7 +47,7 @@ function App() {
   return (
     <>
       {isLoading && (
-        <div className="w-screen h-screen flex justify-center bg-black bg-opacity-60 items-center fixed z-50">
+        <div className="w-screen h-screen flex justify-center bg-black bg-opacity-60 items-center fixed pl-10 z-50">
           <LineWave
             className=""
             visible={true}

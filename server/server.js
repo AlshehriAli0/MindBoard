@@ -10,7 +10,6 @@ import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
 import path from "path";
 import { customAlphabet } from "nanoid";
-import { v4 as uuidv4 } from "uuid";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -26,7 +25,6 @@ const PORT = 8080 || process.env.PORT;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
-const notes = [{ content: "This is a note", id: 1, title: "Note 1" }];
 
 // * Salting password algorithm
 function getRandomSaltRounds(min, max) {

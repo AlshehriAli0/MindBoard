@@ -56,7 +56,7 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
   return (
     <>
       {isLoading && (
-        <div className=" fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 z-50">
+        <div className=" fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 pl-10 z-50">
           <LineWave
             className=""
             visible={true}
@@ -73,7 +73,7 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
         </div>
       )}
 
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 pointer-events-none md:px-0 px-4 z-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 pointer-events-none md:px-0 px-4 z-40">
         <div className="bg-white p-8 rounded-md text-center w-96 h-96 pointer-events-auto animate-fade-up animate-duration-[500ms] animate-delay-[250ms] animate-ease-out relative">
           <img
             src={`${process.env.PUBLIC_URL}/assets/cross.png`}
@@ -82,7 +82,7 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
             alt="Close Form"
           />
           {errorMessage && (
-            <div className="text-red-500 text-sm absolute mb-24 bottom-12 z-50">
+            <div className="text-red-500 text-sm absolute bottom-6 z-40">
               {errorMessage}
             </div>
           )}

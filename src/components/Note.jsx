@@ -39,7 +39,7 @@ function Card(props) {
   return (
     <>
       {isLoading && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 pl-10 z-50">
           <LineWave
             className=""
             visible={true}
@@ -80,7 +80,7 @@ function Card(props) {
             </button>
 
             <div
-              className={`absolute top-0 right-0 md:mt-8 mt-10 z-50 ${
+              className={`absolute top-0 right-0 md:mt-8 mt-10 z-40 ${
                 isMenuOpen ? "animate-fade-up" : " hidden"
               }  animate-duration-[200ms] animate-ease-out animate-normal bg-white border border-gray-200 rounded-md shadow-md`}
             >

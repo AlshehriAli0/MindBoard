@@ -90,7 +90,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
   return (
     <>
       {isLoading && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 pl-10 z-50">
           <LineWave
             className=""
             visible={true}
@@ -218,7 +218,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
                 onClick={() => setShowPassword(!showPassword)}
               />
               {errorMessage && (
-                <div className="text-red-500 text-sm absolute pt-3 top-12 z-50">
+                <div className="text-red-500 text-sm absolute pt-3 top-12 z-40">
                   {errorMessage}
                 </div>
               )}
