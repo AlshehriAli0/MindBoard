@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prod": "npm install && cd server",
+    "prod": "npm install && cd server && node server.js",
     "build": "react-scripts build",
     "tailwind": "npx tailwindcss -i ./public/styles/input.css -o ./public/styles/output.css  --watch",
     "test": "react-scripts test",
