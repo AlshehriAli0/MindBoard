@@ -51,14 +51,14 @@ function CreateNote({ fetchData, isAuthenticated }) {
       {isAuthenticated ? (
         <form onSubmit={handleNewNote}>
           <div className="flex items-center justify-center w-screen pt-12">
-            <div className="relative rounded-lg shadow-md bg-white float-left p-4 w-11/12 md:w-8/12 lg:5/12 xl:4/12 h-48 animate-fade-up animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out">
+            <div className="relative rounded-lg shadow-md bg-white float-left p-4 w-11/12 md:w-8/12 lg:5/12 xl:4/12 h-48 mb-6 animate-fade-up animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out">
               <input
                 required
                 name="title"
                 type="text"
                 id="title"
                 placeholder="Title...."
-                className="focus:outline-none text-2xl text-gray-800 font-bold mb-2 block w-full"
+                className="focus:outline-none lg:text-2xl text-gray-800 font-bold mb-2 block w-full text-xl"
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
@@ -70,7 +70,7 @@ function CreateNote({ fetchData, isAuthenticated }) {
                 type="text"
                 id="content"
                 placeholder="Content..."
-                className="text-gray-800 focus:outline-none overflow-hidden overflow-y-auto max-h-32 text-sm block w-full resize-none"
+                className="text-gray-800 focus:outline-none overflow-hidden overflow-y-auto max-h-32 lg:text-sm block w-full resize-none text-base"
                 rows={6}
                 wrap="soft"
                 value={content}

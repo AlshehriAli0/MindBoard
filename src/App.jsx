@@ -14,6 +14,16 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+
+  // * set screen height
+  useEffect(() => {
+    function handleResize() {
+      setScreenHeight(window.innerHeight);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // * fetch data from server
   const fetchData = async () => {
@@ -67,16 +77,21 @@ function App() {
         <LandingPage handleGetStarted={handleGetStarted} />
       ) : (
         <>
-          <Navbar
-            fetchData={fetchData}
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-          />
-          <Intro isAuthenticated={isAuthenticated} />
-          <CreateNote fetchData={fetchData} isAuthenticated={isAuthenticated} />
+          
+            <Navbar
+              fetchData={fetchData}
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+            />
+            <Intro isAuthenticated={isAuthenticated} />
+            <CreateNote
+              fetchData={fetchData}
+              isAuthenticated={isAuthenticated}
+            />
 
-          <Note dataFromApp={item} fetchData={fetchData} />
-          <Footer />
+            <Note dataFromApp={item} fetchData={fetchData} />
+          
+          {isAuthenticated && <Footer item={item} />}
         </>
       )}
     </>

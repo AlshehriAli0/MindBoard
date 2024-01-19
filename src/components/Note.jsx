@@ -60,12 +60,12 @@ function Card(props) {
           isDeleting ? "fade-out" : ""
         }`}
       >
-        <div className="rounded-lg shadow-md bg-white p-4 w-full float-left h-36 relative animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out">
+        <div className="rounded-lg shadow-md bg-white p-4 w-full float-left h-36 relative animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out z-0">
           <h1 className="text-2xl font-bold mb-2">{props.Title}</h1>
-          <p className="text-gray-500 md:w-54 w-80 overflow-hidden overflow-y-auto max-h-20 text-sm ">
+          <p className="text-gray-600 md:w-54 w-80 overflow-hidden overflow-y-auto max-h-20 text-md z-0 ">
             {props.Content}
           </p>
-          <div className="absolute right-0 bottom-0 md:mr-2 md:mb-2 mb-1 mr-1">
+          <div className="absolute right-0 top-0 md:mr-2 md:mt-2 mt-1 mr-1 z-50">
             <button
               className={`px-2 py-1 transition hover:bg-gray-200 ${
                 isMenuOpen ? "bg-gray-200" : ""
@@ -86,11 +86,15 @@ function Card(props) {
             >
               <button
                 onClick={deleteNote}
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-200 focus:outline-none "
+                className="flex justify-center space-x-1 align-middle px-5 py-2 text-gray-800 hover:bg-gray-200 focus:outline-none z-50"
               >
-                Delete
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/bin.png`}
+                  alt="bin"
+                  className="h-5"
+                />
+                <p className="">Delete</p>
               </button>
-              {/* Add more menu options if needed */}
             </div>
           </div>
         </div>
