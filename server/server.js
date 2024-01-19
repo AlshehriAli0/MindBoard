@@ -5,6 +5,7 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
 import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
@@ -27,7 +28,7 @@ const PORT = 8080 || process.env.PORT;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
-const notes = [{ content: "This is a note", id: 1, title: "Note 1" }];
+
 
 // * Salting password algorithm
 function getRandomSaltRounds(min, max) {
@@ -58,6 +59,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 60 * 60 * 1000 },
+    store: MongoStore.create({ mongoUrl: monURL }),
   })
 );
 
