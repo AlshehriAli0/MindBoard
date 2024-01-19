@@ -171,7 +171,7 @@ app.get("/api/notes", async (req, res) => {
     const user = await User.findById(req.user._id).populate("notes");
     res.json(user.notes);
   } catch (err) {
-    console.error("Error during notes retrieval:", err.message);
+    ;
     res
       .status(500)
       .json({ message: "Error retrieving notes", error: err.message });
@@ -191,7 +191,7 @@ app.post("/api/login", passport.authenticate("local"), (req, res) => {
 
 app.post("/api/signUp", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log("Signup attempt:", name, email, password);
+  console.log("Signup attempt:", name, email);
 
   // *hashing password
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
