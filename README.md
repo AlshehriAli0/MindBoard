@@ -59,7 +59,7 @@ MindBoard is an intuitive web application designed to help users organize their 
 
 ### Live Link 🔗
 
-Check out MindBoard live at [https://mindboard.onrender.com/](#) (replace with your actual live link).
+Check out MindBoard live at https://mindboard.onrender.com/ .
 
 ## Contributing 🤝
 
