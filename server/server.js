@@ -10,13 +10,15 @@ import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
 import path from "path";
 import { customAlphabet } from "nanoid";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // * Variables
 const nanoid = customAlphabet("1234567890", 25);
@@ -25,6 +27,7 @@ const PORT = 8080 || process.env.PORT;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
+const notes = [{ content: "This is a note", id: 1, title: "Note 1" }];
 
 // * Salting password algorithm
 function getRandomSaltRounds(min, max) {
@@ -165,23 +168,33 @@ app.get("/api/notes", async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate("notes");
     res.json(user.notes);
-  } catch (err) {}
+  } catch (err) {
+    console.error("Error during notes retrieval:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error retrieving notes", error: err.message });
+  }
 });
 
 // * Post Routes
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
   if (req.isAuthenticated()) {
+    console.log("Login attempt successful");
     res.status(200).json({ authenticated: true, message: "Login successful" });
   } else {
+    console.log("Login attempt unsuccessful");
     res.status(401).send({ authenticated: true, message: "Not authenticated" });
   }
 });
 
 app.post("/api/signUp", async (req, res) => {
   const { name, email, password } = req.body;
+  console.log("Signup attempt:", name, email, password);
 
   // *hashing password
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
+  console.log("Hashed Password:", hashedPassword);
+  console.log("compare:", bcrypt.compareSync(password, hashedPassword));
 
   // *creating new user and saving
   try {
@@ -198,6 +211,7 @@ app.post("/api/signUp", async (req, res) => {
     // *logging in user automatically after signup
     req.login(newUser, (err) => {
       if (err) {
+        console.error("Error during login after signup:", err.message);
         res
           .status(500)
           .json({ message: "Error signing up", error: err.message });
@@ -208,6 +222,7 @@ app.post("/api/signUp", async (req, res) => {
       }
     });
   } catch (err) {
+    console.error("Error during signup:", err.message);
     res.status(500).json({ message: "Error signing up", error: err.message });
   }
 });
@@ -229,6 +244,7 @@ app.post("/api/createNote", async (req, res) => {
 
     res.status(201).json({ message: "Note created", data: newNote });
   } catch (err) {
+    console.error("Error during note creation:", err.message);
     res
       .status(500)
       .json({ message: "Error creating note", error: err.message });
@@ -242,6 +258,7 @@ app.post("/api/deleteNote", async (req, res) => {
     await Note.findOneAndDelete({ id: id });
     res.json({ message: "Note deleted", data: id });
   } catch (err) {
+    console.error("Error during note deletion:", err.message);
     res
       .status(500)
       .json({ message: "Error deleting note", error: err.message });
@@ -277,6 +294,7 @@ app.post("/api/updateUser", async (req, res) => {
 
     res.status(200).json({ message: "User updated successfully" });
   } catch (err) {
+    console.error("Error updating user:", err.message);
     res
       .status(500)
       .json({ message: "Error updating user", error: err.message });

@@ -28,7 +28,7 @@ function App() {
       result.status === 200
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
-
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
