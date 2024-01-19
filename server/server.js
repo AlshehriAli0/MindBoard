@@ -8,10 +8,16 @@ import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
+import path from "path";
 import { customAlphabet } from "nanoid";
 import { v4 as uuidv4 } from "uuid";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-dotenv.config({ path: "../dev.env" });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 // * Variables
 const nanoid = customAlphabet("1234567890", 25);
@@ -88,7 +94,7 @@ const NoteSchema = new Schema({
 userSchema.plugin(passportLocalMongoose);
 
 // * User model constructor
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("users", userSchema);
 
 // * Note model constructor
 const Note = mongoose.model("Note", NoteSchema);
@@ -273,7 +279,7 @@ app.post("/api/updateUser", async (req, res) => {
       const emailExists = await User.findOne({ email });
 
       if (emailExists) {
-        return res.status(400).json({ message: "Email already in use" });
+        return res.status(401).json({ message: "Email already in use" });
       }
 
       user.email = email;

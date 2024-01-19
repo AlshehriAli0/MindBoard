@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
+import { passwordStrength } from "check-password-strength";
 
 function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
+  // * password options
+  const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
+
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -25,9 +29,23 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
     setIsLoading(true);
     setErrorMessage("");
 
-    // Check if name contains only letters
+    //* Check if name contains only letters
     if (!/^[a-zA-Z]+$/.test(name)) {
-      alert("Name must contain only letters");
+      setErrorMessage("Name must contain only letters");
+      setIsLoading(false);
+      return;
+    }
+
+    // * Check if password is safe
+    if (
+      passwordStrength(password, passwordOptions).value === "Too weak" ||
+      passwordStrength(password, passwordOptions).value === "Weak"
+    ) {
+      setErrorMessage(
+        `The password is ${
+          passwordStrength(password, passwordOptions).value
+        }! `
+      );
       setIsLoading(false);
       return;
     }
@@ -40,7 +58,6 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
 
     // * post request to server
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       await axios
         .post("/api/signUp", data, { withCredentials: true })
         .then((response) => {
@@ -48,6 +65,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
           setName("");
           setEmail("");
           setPassword("");
+
           //* close form
           closeForm("");
 
@@ -175,6 +193,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
               </label>
               <input
                 required
+                minLength={6}
                 type={showPassword ? "text" : "password"}
                 name="password"
                 id="password"

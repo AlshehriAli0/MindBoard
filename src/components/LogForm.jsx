@@ -24,7 +24,6 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
     };
     console.log(data);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       await axios
         .post("/api/login", data, {

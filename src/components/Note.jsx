@@ -3,29 +3,37 @@ import { LineWave } from "react-loader-spinner";
 import axios from "axios";
 
 function Card(props) {
+  // * hooks
   const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
+  // * delete note
   const deleteNote = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsDeleting(true);
 
-    try {
-      await axios.post(
-        "/api/deleteNote",
-        { id: props.id },
-        { withCredentials: true }
-      );
-      setIsMenuOpen(false);
-      props.fetchData();
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
+    setTimeout(async () => {
+      setIsLoading(true);
+
+      try {
+        await axios.post(
+          "/api/deleteNote",
+          { id: props.id },
+          { withCredentials: true }
+        );
+        setIsMenuOpen(false);
+        props.fetchData();
+      } catch (error) {
+        console.error(error);
+      }
+
+      setIsLoading(false);
+    }, 500); 
   };
 
   return (
@@ -47,8 +55,12 @@ function Card(props) {
           />
         </div>
       )}
-      <div className="flex items-center justify-center relative ">
-        <div className="rounded-lg shadow-md bg-white p-4 w-full float-left h-36 relative">
+      <div
+        className={`flex items-center justify-center relative animate-fade-down animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out ${
+          isDeleting ? "fade-out" : ""
+        }`}
+      >
+        <div className="rounded-lg shadow-md bg-white p-4 w-full float-left h-36 relative animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out">
           <h1 className="text-2xl font-bold mb-2">{props.Title}</h1>
           <p className="text-gray-500 md:w-54 w-80 overflow-hidden overflow-y-auto max-h-20 text-sm ">
             {props.Content}

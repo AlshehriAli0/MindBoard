@@ -26,3 +26,18 @@ h3 {
     background-image:  url("../assets/cartographer\(1\).png");
 
 }
+
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation: fade-out 0.5s forwards;
+}

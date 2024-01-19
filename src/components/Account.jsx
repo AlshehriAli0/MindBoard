@@ -8,12 +8,12 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
   const [editedName, setEditedName] = useState(name);
   const [editedEmail, setEditedEmail] = useState(email);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // * toggle edit mode
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
-
 
   // * format date
   const dateObj = new Date(date);
@@ -23,6 +23,7 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
   const handleSaveChanges = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    setErrorMessage("");
 
     try {
       const response = await axios.post(
@@ -39,6 +40,13 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
         fetchData();
       }
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Email already in use!");
+      } else {
+        setErrorMessage(
+          "An error occurred during Sign Up. Please try again later."
+        );
+      }
       console.error("Error updating user data:", error);
       setIsLoading(false);
     }
@@ -73,6 +81,11 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
             onClick={() => toggleAccount()}
             alt="Close Form"
           />
+          {errorMessage && (
+            <div className="text-red-500 text-sm absolute mb-24 bottom-12 z-50">
+              {errorMessage}
+            </div>
+          )}
           <h2 className="text-3xl font-bold mb-4">Account Information</h2>
           <div className="text-left">
             <p className="text-gray-900 font-bold text-xl">Name</p>

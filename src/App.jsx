@@ -29,7 +29,6 @@ function App() {
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (err) {
       console.log(err);
     }
