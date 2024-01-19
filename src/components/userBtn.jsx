@@ -19,15 +19,16 @@ function UserBtn({ fetchData }) {
     setShowAccount((prev) => !prev);
   };
 
+
   // * logout
   const handleLogout = async () => {
-  try {
-    await axios.get('/api/logout', { withCredentials: true });
-    window.location.reload();
-  } catch (err) {
-    console.error(err);
-  }
-};
+    try {
+      await axios.get("/api/logout", { withCredentials: true });
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // * fetch user data
   const fetchUserData = async () => {
