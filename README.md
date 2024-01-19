@@ -67,4 +67,4 @@ Feel free to contribute by opening issues or creating pull requests. Your input 
 
 ## License 📄
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GNU General Public License (GPL)](LICENSE).
