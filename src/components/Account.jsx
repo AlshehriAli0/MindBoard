@@ -30,7 +30,7 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
         "/api/updateUser",
         {
           name: editedName,
-          email: editedEmail,
+          email: editedEmail.toLowerCase(),
         },
         { withCredentials: true }
       );

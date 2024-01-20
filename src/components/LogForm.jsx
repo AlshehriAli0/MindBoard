@@ -19,7 +19,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
     setErrorMessage(""); 
 
     const data = {
-      email: email,
+      email: email.toLowerCase(),
       password: password,
     };
     console.log(data);

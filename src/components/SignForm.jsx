@@ -52,7 +52,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
 
     const data = {
       name: capitalizeFirstLetter(name),
-      email: email,
+      email: email.toLowerCase(),
       password: password,
     };
 
