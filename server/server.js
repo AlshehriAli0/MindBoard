@@ -251,7 +251,6 @@ app.post("/api/deleteNote", async (req, res) => {
     await Note.findOneAndDelete({ id: id });
     res.json({ message: "Note deleted", data: id });
   } catch (err) {
-    console.error("Error during note deletion:", err.message);
     res
       .status(500)
       .json({ message: "Error deleting note", error: err.message });

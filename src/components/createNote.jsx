@@ -13,12 +13,11 @@ function CreateNote({ fetchData, isAuthenticated }) {
     event.preventDefault();
     setIsLoading(true);
 
-    //* Replace newline characters with \n
-    const formattedContent = content.replace(/\r?\n/g, "\\n");
+    
 
     const data = {
       title: title,
-      content: formattedContent,
+      content: content,
     };
     try {
       await axios

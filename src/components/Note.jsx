@@ -60,9 +60,11 @@ function Card(props) {
           isDeleting ? "fade-out" : ""
         }`}
       >
-        <div className="rounded-lg shadow-md bg-white p-4 w-full float-left h-36 relative animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out z-0">
-          <h1 className="text-2xl font-bold mb-2">{props.Title}</h1>
-          <p className="text-gray-600 md:w-54 w-80 overflow-hidden overflow-y-auto max-h-20 text-md z-0 ">
+        <div className="rounded-lg shadow-md bg-white p-4 w-full float-left h-48 relative animate-fade-left animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out z-0">
+          <h1 className="text-2xl font-bold mb-2 max-w-xs overflow-y-auto max-h-8 text-md z-0 whitespace-pre-line word-break-all">
+            {props.Title}
+          </h1>
+          <p className="text-gray-600 max-w-xs overflow-y-auto max-h-36 text-md z-0 whitespace-pre-line word-break-all">
             {props.Content}
           </p>
           <div className="absolute right-0 top-0 md:mr-2 md:mt-2 mt-1 mr-1 z-50">
