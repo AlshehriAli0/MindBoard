@@ -12,23 +12,21 @@ import dotenv from "dotenv";
 import path from "path";
 import { customAlphabet } from "nanoid";
 
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 // * Variables
 const nanoid = customAlphabet("1234567890", 25);
 const app = express();
-const PORT =  process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
-
 
 // * Salting password algorithm
 function getRandomSaltRounds(min, max) {
@@ -149,7 +147,7 @@ app.get("/api/logout", (req, res) => {
     if (err) {
       return res.status(500).json({ message: "Error logging out" });
     }
-    res.status(200).json({ message: "Logged out successfully" });
+    res.status(200).json({ message: "Logout successful" });
   });
 });
 
@@ -171,7 +169,6 @@ app.get("/api/notes", async (req, res) => {
     const user = await User.findById(req.user._id).populate("notes");
     res.json(user.notes);
   } catch (err) {
-    ;
     res
       .status(500)
       .json({ message: "Error retrieving notes", error: err.message });
@@ -181,10 +178,8 @@ app.get("/api/notes", async (req, res) => {
 // * Post Routes
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
   if (req.isAuthenticated()) {
-    console.log("Login attempt successful");
     res.status(200).json({ authenticated: true, message: "Login successful" });
   } else {
-    console.log("Login attempt unsuccessful");
     res.status(401).send({ authenticated: true, message: "Not authenticated" });
   }
 });
@@ -211,7 +206,6 @@ app.post("/api/signUp", async (req, res) => {
     // *logging in user automatically after signup
     req.login(newUser, (err) => {
       if (err) {
-        console.error("Error during login after signup:", err.message);
         res
           .status(500)
           .json({ message: "Error signing up", error: err.message });
@@ -222,7 +216,6 @@ app.post("/api/signUp", async (req, res) => {
       }
     });
   } catch (err) {
-    console.error("Error during signup:", err.message);
     res.status(500).json({ message: "Error signing up", error: err.message });
   }
 });

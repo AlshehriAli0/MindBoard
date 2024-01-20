@@ -33,6 +33,7 @@
   },
   "scripts": {
     "start": "cd server && node server.js",
+    "react": "react-scripts start",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
     "prod": "npm install",
     "build": "react-scripts build",
