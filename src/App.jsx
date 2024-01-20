@@ -5,6 +5,7 @@ import Note from "./components/Note.jsx";
 import CreateNote from "./components/createNote.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import Intro from "./components/Intro.jsx";
+import SuccessMsg from "./components/SuccessMsg.jsx";
 import { LineWave } from "react-loader-spinner";
 import axios from "axios";
 

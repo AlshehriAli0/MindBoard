@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
+import SuccessMsg from "./SuccessMsg";
 import { passwordStrength } from "check-password-strength";
+import { set } from "mongoose";
 
-function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
+function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
   // * password options
   const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
 
@@ -42,9 +45,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
       passwordStrength(password, passwordOptions).value === "Weak"
     ) {
       setErrorMessage(
-        `The password is ${
-          passwordStrength(password, passwordOptions).value
-        }! `
+        `The password is ${passwordStrength(password, passwordOptions).value}! `
       );
       setIsLoading(false);
       return;
@@ -72,6 +73,9 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
           if (response.data.authenticated) {
             fetchData();
             setIsAuthenticated(true);
+            setTimeout(() => {
+              setSuccess(true);
+            }, 400);
           }
         });
     } catch (error) {
@@ -85,6 +89,11 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated }) {
       console.error(error);
     }
     setIsLoading(false);
+
+    // * remove success message
+    setTimeout(() => {
+      setSuccess(false);
+    }, 9000);
   };
 
   return (

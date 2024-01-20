@@ -11,7 +11,7 @@ import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
 import path from "path";
 import { customAlphabet } from "nanoid";
-
+import mg from "mailgun-js"; 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 

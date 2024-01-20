@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express-session": "^1.17.3",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^8.0.3",
     "nanoid": "^5.0.4",
     "passport": "^0.7.0",
