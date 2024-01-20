@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { LineWave } from "react-loader-spinner";
 import axios from "axios";
+import DeleteMsg from "./DeleteMsg ";
+import { createPortal } from "react-dom";
 
 function Card(props) {
   // * hooks
-  const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -16,10 +16,11 @@ function Card(props) {
   const deleteNote = async (e) => {
     e.preventDefault();
     setIsDeleting(true);
+    setTimeout(() => {
+      props.setShowDeleteMsg(true);
+    }, 3000);
 
     setTimeout(async () => {
-      setIsLoading(true);
-
       try {
         await axios.post(
           "/api/deleteNote",
@@ -31,14 +32,16 @@ function Card(props) {
       } catch (error) {
         console.error(error);
       }
-
-      setIsLoading(false);
-    }, 500); 
+    }, 200);
+    // * remove delete message
+    setTimeout(() => {
+      props.setShowDeleteMsg(false);
+    }, 3000);
   };
 
   return (
     <>
-      {isLoading && (
+      {/* {isLoading && (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 pl-10 z-50">
           <LineWave
             className=""
@@ -54,7 +57,7 @@ function Card(props) {
             lastLineColor=""
           />
         </div>
-      )}
+      )} */}
       <div
         className={`flex items-center justify-center relative animate-fade-down animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out ${
           isDeleting ? "fade-out" : ""
@@ -101,6 +104,7 @@ function Card(props) {
           </div>
         </div>
       </div>
+
     </>
   );
 }
@@ -113,17 +117,30 @@ function createCard(props) {
       Content={props.content}
       id={props.id}
       fetchData={props.fetchData}
+      setShowDeleteMsg={props.setShowDeleteMsg}
     />
   );
 }
 
 function Note(props) {
   const data = props.dataFromApp;
+  const [showDeleteMsg, setShowDeleteMsg] = useState(false);
 
   return (
-    <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 lg:w-5/6 w-11/12 mx-auto justify-self-center sm:pt-16 pt-6">
-      {data.map((item) => createCard({ ...item, fetchData: props.fetchData }))}
-    </section>
+    <>
+      <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 lg:w-5/6 w-11/12 mx-auto justify-self-center sm:pt-16 pt-6">
+        {data.map((item) =>
+          createCard({ ...item, fetchData: props.fetchData, setShowDeleteMsg })
+        )}
+      </section>
+
+
+      {showDeleteMsg &&
+        createPortal(
+          <DeleteMsg msg="Note Deleted " />,
+          document.getElementById("root")
+        )}
+    </>
   );
 }
 

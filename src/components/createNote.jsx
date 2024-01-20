@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { createPortal } from "react-dom";
 import { LineWave } from "react-loader-spinner";
+import NoteMsg from "./NoteMsg";
 
 function CreateNote({ fetchData, isAuthenticated }) {
   // * hooks
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showNoteMsg, setShowNoteMsg] = useState(false);
 
   // * post request to server
   const handleNewNote = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-
-    
 
     const data = {
       title: title,
@@ -29,11 +30,21 @@ function CreateNote({ fetchData, isAuthenticated }) {
           setContent("");
           console.log(data);
           fetchData();
+
+          // * show Note message
+          setTimeout(() => {
+            setShowNoteMsg(true);
+          }, 1200);
         });
     } catch (error) {
       console.error(error);
     }
     setIsLoading(false);
+
+    // * remove Note message
+    setTimeout(() => {
+      setShowNoteMsg(false);
+    }, 3700);
   };
 
   return (
@@ -94,6 +105,12 @@ function CreateNote({ fetchData, isAuthenticated }) {
       ) : (
         <></>
       )}
+
+      {showNoteMsg &&
+        createPortal(
+          <NoteMsg msg="Note Created " />,
+          document.getElementById("root")
+        )}
     </>
   );
 }
