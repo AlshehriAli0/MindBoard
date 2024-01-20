@@ -94,7 +94,7 @@ function UserBtn({ fetchData }) {
 
           <button
             onClick={handleLogout}
-            className="block px-5 py-2 text-white rounded transition hover:bg-gray-900 duration-300 focus:outline-none"
+            className="block px-5 py-2 text-white rounded transition hover:bg-gray-900 duration-300 focus:outline-none w-full"
           >
             <div className="flex items-center justify-center">
               <img
