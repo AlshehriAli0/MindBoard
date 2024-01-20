@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
 
-function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
+function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcome }) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -16,7 +16,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    setErrorMessage(""); 
+    setErrorMessage("");
 
     const data = {
       email: email.toLowerCase(),
@@ -24,7 +24,6 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
     };
     console.log(data);
     try {
-
       await axios
         .post("/api/login", data, {
           withCredentials: true,
@@ -43,19 +42,29 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated }) {
           if (response.data.authenticated) {
             fetchData();
             setIsAuthenticated(true);
+
+            // * set welcome message
+            setTimeout(() => {
+              setWelcome(true);
+            }, 400);
           }
         });
     } catch (error) {
-         if (error.response && error.response.status === 401) {
-           setErrorMessage("Incorrect email or password");
-         } else {
-           setErrorMessage(
-             "An error occurred during login. Please try again later."
-           );
-         }
-         console.error(error);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Incorrect email or password");
+      } else {
+        setErrorMessage(
+          "An error occurred during login. Please try again later."
+        );
+      }
+      console.error(error);
     }
     setIsLoading(false);
+    
+    // * remove welcome message
+    setTimeout(() => {
+      setWelcome(false);
+    }, 9000);
   };
 
   return (

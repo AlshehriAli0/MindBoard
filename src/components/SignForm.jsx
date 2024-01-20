@@ -73,6 +73,8 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
           if (response.data.authenticated) {
             fetchData();
             setIsAuthenticated(true);
+            
+            // * set success message
             setTimeout(() => {
               setSuccess(true);
             }, 400);

@@ -12,10 +12,10 @@ function SuccessMsg({ msg }) {
   }, []);
 
   return (
-    <div className=" animate-fade-up animate-duration-[500ms] animate-ease-out shadow-xl ">
+    <div className=" animate-fade-left animate-duration-[500ms] animate-ease-out shadow-xl ">
       <div
         className={` fixed scale-75 bottom-20 right-6 py-1 px-3 rounded-full bg-white ${
-          fadeDown ? " transition-opacity duration-100 ease-out opacity-0" : ""
+          fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
         } flex justify-center items-center border-4 border-teal-500 space-x-1`}
       >
         <img

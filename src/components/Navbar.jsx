@@ -4,10 +4,12 @@ import LogForm from "./LogForm";
 import SignForm from "./SignForm";
 import UserBtn from "./userBtn";
 import SuccessMsg from "./SuccessMsg"; 
+import WelcomeMsg from "./WelcomeMsg";
 
 function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
   const [currentForm, setCurrentForm] = useState(null);
   const [success, setSuccess] = useState(false); 
+  const [welcome, setWelcome] = useState(false);
 
   const handleButtonClick = (form) => {
     setCurrentForm((prevForm) => (prevForm === form ? null : form));
@@ -22,6 +24,7 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
+            setWelcome={setWelcome}
           />
         );
       case "signup":
@@ -68,8 +71,19 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
           </div>
           {renderNavBtn()}
           {createPortal(renderForm(), document.getElementById("root"))}
+
+          
           {success &&
-            createPortal(<SuccessMsg msg="Sign Up Successful" />, document.getElementById("root"))}
+            createPortal(
+              <SuccessMsg msg="Sign Up Successful" />,
+              document.getElementById("root")
+            )}
+
+          {welcome &&
+            createPortal(
+              <WelcomeMsg msg="Welcome Back " />,
+              document.getElementById("root")
+            )}
         </div>
       </nav>
     </>
