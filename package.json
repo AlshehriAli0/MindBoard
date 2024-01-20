@@ -32,10 +32,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cd server && node server.js",
+    "start": "node server/server.js",
     "prod": "npm install",
     "build": "react-scripts build",
-       "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm", 
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
     "tailwind": "npx tailwindcss -i ./public/styles/input.css -o ./public/styles/output.css  --watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
