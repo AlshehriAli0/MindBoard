@@ -33,6 +33,7 @@
   },
   "scripts": {
     "start": "cd server && node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
     "prod": "npm install",
     "build": "react-scripts build",
     "tailwind": "npx tailwindcss -i ./public/styles/input.css -o ./public/styles/output.css  --watch",

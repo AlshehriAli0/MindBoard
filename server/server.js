@@ -24,7 +24,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 // * Variables
 const nanoid = customAlphabet("1234567890", 25);
 const app = express();
-const PORT = 8080 || process.env.PORT;
+const PORT =  process.env.PORT || 8080;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
 const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
