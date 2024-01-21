@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Account from "./Account";
 
-function UserBtn({ fetchData }) {
+function UserBtn({ setEmailSuccessMsg, setNameMsg }) {
   // * hooks
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +18,6 @@ function UserBtn({ fetchData }) {
   const toggleAccount = () => {
     setShowAccount((prev) => !prev);
   };
-
 
   // * logout
   const handleLogout = async () => {
@@ -115,6 +114,8 @@ function UserBtn({ fetchData }) {
           name={user}
           email={email}
           date={date}
+          setEmailSuccessMsg={setEmailSuccessMsg}
+          setNameMsg={setNameMsg}
         />
       )}
     </>

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { createPortal } from "react-dom";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
-import SuccessMsg from "./SuccessMsg";
 import { passwordStrength } from "check-password-strength";
-import { set } from "mongoose";
 
-function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
+function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
   // * password options
   const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
 
@@ -73,10 +70,10 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
           if (response.data.authenticated) {
             fetchData();
             setIsAuthenticated(true);
-            
+
             // * set success message
             setTimeout(() => {
-              setSuccess(true);
+              setSuccessMsg(true);
             }, 400);
           }
         });
@@ -94,7 +91,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
 
     // * remove success message
     setTimeout(() => {
-      setSuccess(false);
+      setSuccessMsg(false);
     }, 9000);
   };
 
@@ -116,7 +113,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
             lastLineColor=""
           />
         </div>
-      )}{" "}
+      )}
       <div
         id="form-container"
         className={
@@ -152,6 +149,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccess }) {
               </label>
               <input
                 required
+                minLength={3}
                 type="text"
                 name="name"
                 id="name"

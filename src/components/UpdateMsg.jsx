@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function NoteMsg({ msg }) {
+function UpdateMsg({ msg }) {
   const [fadeDown, setFadeDown] = useState(false);
 
   useEffect(() => {
@@ -14,19 +14,19 @@ function NoteMsg({ msg }) {
   return (
     <div className=" animate-fade-up animate-duration-[500ms] animate-ease-out shadow-xl ">
       <div
-        className={` absolute scale-90 top-0 mb-10  right-12 py-1 px-3 rounded-xl bg-white ${
+        className={` fixed scale-75 md:mt-0 mt-8 top-0  md:right-12 right-8 py-1 px-3 rounded-xl bg-white ${
           fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
-        } flex justify-center items-center border-2 border-gray-800 space-x-1`}
+        } flex justify-center items-center border-2 border-teal-500 space-x-1`}
       >
         <img
-          src={`${process.env.PUBLIC_URL}/assets/check.png`}
-          alt="hand wave"
-          className="h-7 inline-block rounded-full opacity-80"
+          src={`${process.env.PUBLIC_URL}/assets/exclamation-mark.png`}
+          alt="exclamition mark"
+          className="h-10 inline-block rounded-full"
         />
-        <p className="font-semibold text-xl text-gray-900 pr-1">{msg}</p>
+        <p className="font-semibold text-xl text-teal-700 pr-1">{msg}</p>
       </div>
     </div>
   );
 }
 
-export default NoteMsg;
+export default UpdateMsg;

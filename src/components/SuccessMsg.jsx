@@ -6,7 +6,7 @@ function SuccessMsg({ msg }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFadeDown(true);
-    }, 2500);
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -14,16 +14,16 @@ function SuccessMsg({ msg }) {
   return (
     <div className=" animate-fade-left animate-duration-[500ms] animate-ease-out shadow-xl ">
       <div
-        className={` fixed scale-75 bottom-36 right-12 py-1 px-3 rounded-xl bg-white ${
+        className={` fixed scale-75 top-28 right-12 py-1 px-3 rounded-xl bg-white ${
           fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
-        } flex justify-center items-center border-4 border-teal-500 space-x-1`}
+        } flex justify-center items-center border-2 border-teal-500 space-x-1`}
       >
         <img
           src={`${process.env.PUBLIC_URL}/assets/exclamation-mark.png`}
           alt="exclamition mark"
           className="h-10 inline-block rounded-full"
         />
-        <p className="font-semibold text-lg text-teal-700 pr-1">{msg}</p>
+        <p className="font-semibold text-xl text-teal-700 pr-1">{msg}</p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
 
-function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcome }) {
+function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcomeMsg }) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -45,7 +45,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcome }) {
 
             // * set welcome message
             setTimeout(() => {
-              setWelcome(true);
+              setWelcomeMsg(true);
             }, 400);
           }
         });
@@ -63,7 +63,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcome }) {
     
     // * remove welcome message
     setTimeout(() => {
-      setWelcome(false);
+      setWelcomeMsg(false);
     }, 9000);
   };
 
@@ -85,7 +85,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcome }) {
             lastLineColor=""
           />
         </div>
-      )}{" "}
+      )}
       <div
         id="form-container"
         className={

@@ -2,9 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
 
-function Account({ toggleAccount, fetchData, name, email, date }) {
+function Account({
+  toggleAccount,
+  fetchData,
+  name,
+  email,
+  date,
+  setEmailSuccessMsg,
+  setNameMsg,
+}) {
   // * hooks
+
   const [isEditing, setIsEditing] = useState(false);
+  const [initialName, setInitialName] = useState(name);
+  const [initialEmail, setInitialEmail] = useState(email);
   const [editedName, setEditedName] = useState(name);
   const [editedEmail, setEditedEmail] = useState(email);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,41 +26,90 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
     setIsEditing(!isEditing);
   };
 
+  // * Email validation function
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
   // * format date
   const dateObj = new Date(date);
   const formattedDate = dateObj.toLocaleDateString();
 
-  // * POST request to update user data
+  // * save changes
   const handleSaveChanges = async (event) => {
     event.preventDefault();
+
     setIsLoading(true);
     setErrorMessage("");
 
-    try {
-      const response = await axios.post(
-        "/api/updateUser",
-        {
-          name: editedName,
-          email: editedEmail.toLowerCase(),
-        },
-        { withCredentials: true }
-      );
-
-      if (response.status === 200) {
-        setIsEditing(false);
-        fetchData();
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("Email already in use!");
-      } else {
-        setErrorMessage(
-          "An error occurred during Sign Up. Please try again later."
-        );
-      }
-      console.error("Error updating user data:", error);
+    //* Validate email before sending the request
+    if (!validateEmail(editedEmail)) {
+      setErrorMessage("Invalid email address!");
       setIsLoading(false);
+      return;
     }
+
+    // * Check if user has made any changes
+    if (editedName === initialName && editedEmail === initialEmail) {
+      setErrorMessage("No Changes Made");
+      setIsEditing(false);
+      setIsLoading(false);
+      console.log("No changes made");
+      
+    } else{
+      // * POST request to update user data
+      try {
+        const response = await axios.post(
+          "/api/updateUser",
+          {
+            name: editedName,
+            email: editedEmail.toLowerCase(),
+          },
+          { withCredentials: true }
+        );
+
+        if (response.status === 200) {
+          setIsEditing(false);
+          fetchData();
+
+          // * set success message
+          if (editedName !== initialName) {
+            setTimeout(() => {
+              setNameMsg(true);
+            }, 400);
+          }
+          if (editedEmail !== initialEmail) {
+            setTimeout(() => {
+              setEmailSuccessMsg(true);
+            }, 400);
+          }
+
+          //* Update initial values
+          setInitialName(editedName);
+          setInitialEmail(editedEmail);
+
+          setErrorMessage("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setErrorMessage("Email already in use!");
+        } else {
+          setErrorMessage("Error updating data, please try again later!");
+        }
+
+        setIsLoading(false);
+      }
+    }
+
+    setTimeout(() => {
+      setEmailSuccessMsg(false);
+    }, 6000);
+
+    setTimeout(() => {
+      setNameMsg(false);
+    }, 6000);
+
     setIsLoading(false);
   };
 
@@ -73,8 +133,11 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
         </div>
       )}
 
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 pointer-events-none md:px-0 px-4 z-40">
-        <div className="bg-white p-8 rounded-md text-center w-96 h-96 pointer-events-auto animate-fade-up animate-duration-[500ms] animate-delay-[250ms] animate-ease-out relative">
+      <div
+        className="fixed inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-20 pointer-events-none 
+      md:px-0 px-4 z-40"
+      >
+        <div className="bg-white sm:mb-0 mb-28 p-8 rounded-md text-center w-96 h-96 pointer-events-auto animate-fade-up animate-duration-[500ms] animate-delay-[250ms] animate-ease-out relative">
           <img
             src={`${process.env.PUBLIC_URL}/assets/cross.png`}
             className="absolute top-4 right-4 h-10 cursor-pointer transition hover:bg-gray-100 duration-300 rounded-md"
@@ -107,6 +170,8 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
               <input
                 required
                 type="email"
+                name="email"
+                id="email"
                 value={editedEmail}
                 onChange={(e) => setEditedEmail(e.target.value)}
                 className="w-full border-b-2 border-gray-700 py-2 pl-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent "
@@ -140,7 +205,7 @@ function Account({ toggleAccount, fetchData, name, email, date }) {
               Edit
             </button>
           )}
-          <p className="absolute bottom-2 pl-2 sm:ml-16 ml-12 text-gray-400 font-semibold">
+          <p className="absolute bottom-0 pl-2 sm:ml-16 ml-12 text-gray-400 font-semibold">
             <strong>Created On:</strong> {formattedDate}
           </p>
         </div>

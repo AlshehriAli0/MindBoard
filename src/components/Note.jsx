@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import DeleteMsg from "./DeleteMsg ";
-import { createPortal } from "react-dom";
 
-function Card(props) {
+
+function Card({ setDeleteMsg, ...props }) {
   // * hooks
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -16,50 +15,33 @@ function Card(props) {
   const deleteNote = async (e) => {
     e.preventDefault();
     setIsDeleting(true);
-    setTimeout(() => {
-      props.setShowDeleteMsg(true);
-    }, 3000);
 
-    setTimeout(async () => {
-      try {
-        await axios.post(
-          "/api/deleteNote",
-          { id: props.id },
-          { withCredentials: true }
-        );
-        setIsMenuOpen(false);
+    try {
+      await axios.post(
+        "/api/deleteNote",
+        { id: props.id },
+        { withCredentials: true }
+      );
+      setIsMenuOpen(false);
+
+      setDeleteMsg(true);
+
+      setTimeout(() => {
         props.fetchData();
-      } catch (error) {
-        console.error(error);
-      }
-    }, 200);
-    // * remove delete message
-    setTimeout(() => {
-      props.setShowDeleteMsg(false);
-    }, 3000);
+      }, 200);
+
+      setTimeout(() => {
+        setDeleteMsg(false);
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <>
-      {/* {isLoading && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60 pl-10 z-50">
-          <LineWave
-            className=""
-            visible={true}
-            height="100"
-            width="100"
-            color="#ffffff"
-            ariaLabel="line-wave-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            firstLineColor=""
-            middleLineColor=""
-            lastLineColor=""
-          />
-        </div>
-      )} */}
       <div
-        className={`flex items-center justify-center relative animate-fade-down animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out ${
+        className={`flex z-0 items-center justify-center relative animate-fade-down animate-duration-[1500ms] animate-delay-[250ms] animate-ease-out ${
           isDeleting ? "fade-out" : ""
         }`}
       >
@@ -104,7 +86,6 @@ function Card(props) {
           </div>
         </div>
       </div>
-
     </>
   );
 }
@@ -117,29 +98,23 @@ function createCard(props) {
       Content={props.content}
       id={props.id}
       fetchData={props.fetchData}
-      setShowDeleteMsg={props.setShowDeleteMsg}
+      setDeleteMsg={props.setDeleteMsg}
     />
   );
 }
 
-function Note(props) {
+function Note({ setDeleteMsg, ...props }) {
   const data = props.dataFromApp;
-  const [showDeleteMsg, setShowDeleteMsg] = useState(false);
 
   return (
     <>
-      <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 lg:w-5/6 w-11/12 mx-auto justify-self-center sm:pt-16 pt-6">
-        {data.map((item) =>
-          createCard({ ...item, fetchData: props.fetchData, setShowDeleteMsg })
-        )}
-      </section>
+   
+        <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 lg:w-5/6 w-11/12 mx-auto justify-self-center sm:pt-16 pt-6 z-0">
+          {data.map((item) =>
+            createCard({ ...item, fetchData: props.fetchData, setDeleteMsg })
+          )}
+        </section>
 
-
-      {showDeleteMsg &&
-        createPortal(
-          <DeleteMsg msg="Note Deleted " />,
-          document.getElementById("root")
-        )}
     </>
   );
 }

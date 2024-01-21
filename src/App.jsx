@@ -5,7 +5,7 @@ import Note from "./components/Note.jsx";
 import CreateNote from "./components/createNote.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import Intro from "./components/Intro.jsx";
-import SuccessMsg from "./components/SuccessMsg.jsx";
+
 import { LineWave } from "react-loader-spinner";
 import axios from "axios";
 
@@ -15,16 +15,11 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-
-  // * set screen height
-  useEffect(() => {
-    function handleResize() {
-      setScreenHeight(window.innerHeight);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const [welcomeMsg, setWelcomeMsg] = useState(false);
+  const [deleteMsg, setDeleteMsg] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [emailSuccessMsg, setEmailSuccessMsg] = useState(false);
+  const [nameMsg, setNameMsg] = useState(false);
 
   // * fetch data from server
   const fetchData = async () => {
@@ -78,20 +73,33 @@ function App() {
         <LandingPage handleGetStarted={handleGetStarted} />
       ) : (
         <>
+          <Navbar
+            setWelcomeMsg={setWelcomeMsg}
+            fetchData={fetchData}
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+            setSuccessMsg={setSuccessMsg}
+            setEmailSuccessMsg={setEmailSuccessMsg}
+            setNameMsg={setNameMsg}
+          />
+          <Intro isAuthenticated={isAuthenticated} />
           
-            <Navbar
-              fetchData={fetchData}
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-            />
-            <Intro isAuthenticated={isAuthenticated} />
-            <CreateNote
-              fetchData={fetchData}
-              isAuthenticated={isAuthenticated}
-            />
+          <CreateNote
+            fetchData={fetchData}
+            isAuthenticated={isAuthenticated}
+            emailSuccessMsg={emailSuccessMsg}
+            nameMsg={nameMsg}
+            successMsg={successMsg}
+            deleteMsg={deleteMsg}
+            welcomeMsg={welcomeMsg}
+          />
 
-            <Note dataFromApp={item} fetchData={fetchData} />
-          
+          <Note
+            dataFromApp={item}
+            fetchData={fetchData}
+            setDeleteMsg={setDeleteMsg}
+          />
+
           {isAuthenticated && <Footer item={item} />}
         </>
       )}

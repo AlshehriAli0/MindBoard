@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { createPortal } from "react-dom";
+import axios from "axios";
+import SuccessMsg from "./SuccessMsg.jsx";
+import DeleteMsg from "./DeleteMsg .jsx";
+import WelcomeMsg from "./WelcomeMsg.jsx";
+import UpdateMsg from "./UpdateMsg.jsx";
 import { LineWave } from "react-loader-spinner";
 import NoteMsg from "./NoteMsg";
 
-function CreateNote({ fetchData, isAuthenticated }) {
+function CreateNote({
+  fetchData,
+  isAuthenticated,
+  welcomeMsg,
+  deleteMsg,
+  successMsg,
+  nameMsg,
+  emailSuccessMsg,
+}) {
   // * hooks
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -106,11 +118,21 @@ function CreateNote({ fetchData, isAuthenticated }) {
         <></>
       )}
 
-      {showNoteMsg &&
-        createPortal(
-          <NoteMsg msg="Note Created " />,
-          document.getElementById("root")
-        )}
+      {/* //* Notifications */}
+
+      {createPortal(
+        <>
+          <div className="pt-64 mt-80 md:mx-0 mx-12 ">
+            {emailSuccessMsg && <UpdateMsg msg="Email Updated!" />}
+            {nameMsg && <UpdateMsg msg="Name Updated!" />}
+            {successMsg && <SuccessMsg msg="Sign Up Successful!" />}
+            {deleteMsg && <DeleteMsg msg="Note Deleted!" />}
+            {welcomeMsg && <WelcomeMsg msg="Welcome Back!" />}
+            {showNoteMsg && <NoteMsg msg="Note Created " />}
+          </div>
+        </>,
+        document.getElementById("portal-root") // Reference a root element for the portal
+      )}
     </>
   );
 }

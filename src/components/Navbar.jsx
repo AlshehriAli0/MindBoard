@@ -3,13 +3,17 @@ import { createPortal } from "react-dom";
 import LogForm from "./LogForm";
 import SignForm from "./SignForm";
 import UserBtn from "./userBtn";
-import SuccessMsg from "./SuccessMsg"; 
-import WelcomeMsg from "./WelcomeMsg";
 
-function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
+function Navbar({
+  fetchData,
+  isAuthenticated,
+  setIsAuthenticated,
+  setWelcomeMsg,
+  setSuccessMsg,
+  setEmailSuccessMsg,
+  setNameMsg,
+}) {
   const [currentForm, setCurrentForm] = useState(null);
-  const [success, setSuccess] = useState(false); 
-  const [welcome, setWelcome] = useState(false);
 
   const handleButtonClick = (form) => {
     setCurrentForm((prevForm) => (prevForm === form ? null : form));
@@ -24,7 +28,7 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
-            setWelcome={setWelcome}
+            setWelcomeMsg={setWelcomeMsg}
           />
         );
       case "signup":
@@ -34,7 +38,7 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
-            setSuccess={setSuccess}
+            setSuccessMsg={setSuccessMsg}
           />
         );
       default:
@@ -51,7 +55,13 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
         />
       );
     } else {
-      return <UserBtn fetchData={fetchData} />;
+      return (
+        <UserBtn
+          fetchData={fetchData}
+          setEmailSuccessMsg={setEmailSuccessMsg}
+          setNameMsg={setNameMsg}
+        />
+      );
     }
   };
 
@@ -72,18 +82,17 @@ function Navbar({ fetchData, isAuthenticated, setIsAuthenticated }) {
           {renderNavBtn()}
           {createPortal(renderForm(), document.getElementById("root"))}
 
-          
-          {success &&
+          {/* {success &&
             createPortal(
               <SuccessMsg msg="Sign Up Successful" />,
               document.getElementById("root")
-            )}
+            )} */}
 
-          {welcome &&
+          {/* {welcome &&
             createPortal(
               <WelcomeMsg msg="Welcome Back " />,
               document.getElementById("root")
-            )}
+            )} */}
         </div>
       </nav>
     </>
