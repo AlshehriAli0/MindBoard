@@ -739,6 +739,10 @@ video {
   right: 1rem;
 }
 
+.right-8 {
+  right: 2rem;
+}
+
 .right-\[14\%\] {
   right: 14%;
 }
@@ -789,26 +793,6 @@ video {
 
 .top-full {
   top: 100%;
-}
-
-.right-24 {
-  right: 6rem;
-}
-
-.right-20 {
-  right: 5rem;
-}
-
-.right-10 {
-  right: 2.5rem;
-}
-
-.right-8 {
-  right: 2rem;
-}
-
-.top-2 {
-  top: 0.5rem;
 }
 
 .z-0 {
@@ -863,6 +847,11 @@ video {
   margin: 1rem;
 }
 
+.mx-12 {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -883,11 +872,6 @@ video {
   margin-right: 1px;
 }
 
-.mx-12 {
-  margin-left: 3rem;
-  margin-right: 3rem;
-}
-
 .-ml-1 {
   margin-left: -0.25rem;
 }
@@ -906,6 +890,10 @@ video {
 
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+
+.mb-28 {
+  margin-bottom: 7rem;
 }
 
 .mb-36 {
@@ -1020,8 +1008,8 @@ video {
   margin-top: 13rem;
 }
 
-.mt-56 {
-  margin-top: 14rem;
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .mt-80 {
@@ -1030,22 +1018,6 @@ video {
 
 .mt-px {
   margin-top: 1px;
-}
-
-.mt-8 {
-  margin-top: 2rem;
-}
-
-.mb-16 {
-  margin-bottom: 4rem;
-}
-
-.mb-20 {
-  margin-bottom: 5rem;
-}
-
-.mb-28 {
-  margin-bottom: 7rem;
 }
 
 .box-border {
@@ -2942,20 +2914,16 @@ video {
   padding-top: 1.5rem;
 }
 
+.pt-64 {
+  padding-top: 16rem;
+}
+
 .pt-\[9px\] {
   padding-top: 9px;
 }
 
 .pt-px {
   padding-top: 1px;
-}
-
-.pt-80 {
-  padding-top: 20rem;
-}
-
-.pt-64 {
-  padding-top: 16rem;
 }
 
 .text-left {
@@ -6342,20 +6310,12 @@ video {
     left: 8rem;
   }
 
-  .sm\:top-0 {
-    top: 0px;
+  .sm\:mb-0 {
+    margin-bottom: 0px;
   }
 
   .sm\:ml-16 {
     margin-left: 4rem;
-  }
-
-  .sm\:mb-8 {
-    margin-bottom: 2rem;
-  }
-
-  .sm\:mb-0 {
-    margin-bottom: 0px;
   }
 
   .sm\:w-96 {
@@ -6405,15 +6365,6 @@ video {
     right: 3rem;
   }
 
-  .md\:top-0 {
-    top: 0px;
-  }
-
-  .md\:mx-12 {
-    margin-left: 3rem;
-    margin-right: 3rem;
-  }
-
   .md\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -6431,16 +6382,16 @@ video {
     margin-right: 0.5rem;
   }
 
+  .md\:mt-0 {
+    margin-top: 0px;
+  }
+
   .md\:mt-2 {
     margin-top: 0.5rem;
   }
 
   .md\:mt-8 {
     margin-top: 2rem;
-  }
-
-  .md\:mt-0 {
-    margin-top: 0px;
   }
 
   .md\:h-4 {

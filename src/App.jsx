@@ -73,34 +73,36 @@ function App() {
         <LandingPage handleGetStarted={handleGetStarted} />
       ) : (
         <>
-          <Navbar
-            setWelcomeMsg={setWelcomeMsg}
-            fetchData={fetchData}
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            setSuccessMsg={setSuccessMsg}
-            setEmailSuccessMsg={setEmailSuccessMsg}
-            setNameMsg={setNameMsg}
-          />
-          <Intro isAuthenticated={isAuthenticated} />
-          
-          <CreateNote
-            fetchData={fetchData}
-            isAuthenticated={isAuthenticated}
-            emailSuccessMsg={emailSuccessMsg}
-            nameMsg={nameMsg}
-            successMsg={successMsg}
-            deleteMsg={deleteMsg}
-            welcomeMsg={welcomeMsg}
-          />
+          <div className="">
+            <Navbar
+              setWelcomeMsg={setWelcomeMsg}
+              fetchData={fetchData}
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              setSuccessMsg={setSuccessMsg}
+              setEmailSuccessMsg={setEmailSuccessMsg}
+              setNameMsg={setNameMsg}
+            />
+            <Intro isAuthenticated={isAuthenticated} />
 
-          <Note
-            dataFromApp={item}
-            fetchData={fetchData}
-            setDeleteMsg={setDeleteMsg}
-          />
+            <CreateNote
+              fetchData={fetchData}
+              isAuthenticated={isAuthenticated}
+              emailSuccessMsg={emailSuccessMsg}
+              nameMsg={nameMsg}
+              successMsg={successMsg}
+              deleteMsg={deleteMsg}
+              welcomeMsg={welcomeMsg}
+            />
 
-          {isAuthenticated && <Footer item={item} />}
+            <Note
+              dataFromApp={item}
+              fetchData={fetchData}
+              setDeleteMsg={setDeleteMsg}
+            />
+
+            {isAuthenticated && <Footer item={item} />}
+          </div>
         </>
       )}
     </>
