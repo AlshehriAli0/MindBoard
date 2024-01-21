@@ -20,6 +20,7 @@ function App() {
   const [successMsg, setSuccessMsg] = useState(false);
   const [emailSuccessMsg, setEmailSuccessMsg] = useState(false);
   const [nameMsg, setNameMsg] = useState(false);
+  const [updateMsg, setUpdateMsg] = useState(false);
 
   // * fetch data from server
   const fetchData = async () => {
@@ -29,8 +30,6 @@ function App() {
         withCredentials: true,
       });
       setItem(result.data);
-      console.log("Data fetched");
-      console.log(isAuthenticated);
       result.status === 200
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
@@ -93,12 +92,14 @@ function App() {
               successMsg={successMsg}
               deleteMsg={deleteMsg}
               welcomeMsg={welcomeMsg}
+              updateMsg={updateMsg}
             />
 
             <Note
               dataFromApp={item}
               fetchData={fetchData}
               setDeleteMsg={setDeleteMsg}
+              setUpdateMsg={setUpdateMsg}
             />
 
             {isAuthenticated && <Footer item={item} />}

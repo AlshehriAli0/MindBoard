@@ -22,15 +22,12 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcomeMsg }) {
       email: email.toLowerCase(),
       password: password,
     };
-    console.log(data);
     try {
       await axios
         .post("/api/login", data, {
           withCredentials: true,
         })
         .then((response) => {
-          console.log(response.data);
-
           // * clear form
           setEmail("");
           setPassword("");

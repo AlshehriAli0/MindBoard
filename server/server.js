@@ -256,6 +256,28 @@ app.post("/api/deleteNote", async (req, res) => {
   }
 });
 
+app.post("/api/updateNote", async (req, res) => {
+  const { id, title, content } = req.body;
+
+  const filter = { id: id };
+  const update = { title: title, content: content };
+  try {
+    const note = await Note.findOneAndUpdate(
+      filter,
+      update,
+      { new: true }
+    );
+
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+    res.json(note);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 app.post("/api/updateUser", async (req, res) => {
   const { name, email } = req.body;
 

@@ -55,8 +55,6 @@ function Account({
       setErrorMessage("No Changes Made");
       setIsEditing(false);
       setIsLoading(false);
-      console.log("No changes made");
-      
     } else{
       // * POST request to update user data
       try {

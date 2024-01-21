@@ -16,6 +16,7 @@ function CreateNote({
   successMsg,
   nameMsg,
   emailSuccessMsg,
+  updateMsg,
 }) {
   // * hooks
   const [title, setTitle] = useState("");
@@ -129,9 +130,10 @@ function CreateNote({
             {deleteMsg && <DeleteMsg msg="Note Deleted!" />}
             {welcomeMsg && <WelcomeMsg msg="Welcome Back!" />}
             {showNoteMsg && <NoteMsg msg="Note Created " />}
+            {updateMsg && <NoteMsg msg="Note Updated!" />}
           </div>
         </>,
-        document.getElementById("portal-root") // Reference a root element for the portal
+        document.getElementById("portal-root")
       )}
     </>
   );
