@@ -17,11 +17,17 @@ function Footer({ item }) {
           </span>{" "}
           <span className="block sm:inline"> All rights reserved.</span>
         </p>
-        <img
-          alt="Github Icon"
-          src={`${process.env.PUBLIC_URL}/assets/github(1).png`}
-          className="h-9 opacity-40 cursor-pointer hover:opacity-80 transition duration-300 ease-in-out"
-        ></img>
+        <a
+          href="https://github.com/AlshehriAli0/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Github Icon"
+            src={`${process.env.PUBLIC_URL}/assets/github(1).png`}
+            className="h-9 opacity-40 cursor-pointer hover:opacity-80 transition duration-300 ease-in-out"
+          />
+        </a>
       </div>
     </div>
   );
