@@ -2,7 +2,7 @@ import React from "react";
 
 function GoogleAuthButton({ msg }) {
   const handleGoogleAuth = () => {
-    window.location.href = "https://www.mindboard.live/auth/google";
+    window.location.href = "/auth/google";
   };
 
 
