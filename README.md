@@ -28,6 +28,7 @@ MindBoard is an intuitive web application designed to help users organize their 
 
 - **Sign Up**: Create a new account with a unique username, email, and secure password.
 - **Login**: Log in securely using your email and password.
+- **Google Authentication**: Utilize Google authentication for a seamless login experience.
 - **Logout**: Safely log out of your account to protect your information.
 
 ### Note Management 📝
