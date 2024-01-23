@@ -28,7 +28,7 @@ function App() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const result = await axios.get(`http://localhost:8080/api/notes?sortOrder=${sortOrder}`, {
+      const result = await axios.get(`/api/notes?sortOrder=${sortOrder}`, {
         withCredentials: true,
       });
       setItem(result.data.notes);
