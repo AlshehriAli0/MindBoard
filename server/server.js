@@ -204,7 +204,7 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "https://www.mindboard.live/auth/google",
+    failureRedirect: "https://www.mindboard.live/",
   }),
   async (req, res) => {
     try {
@@ -220,7 +220,7 @@ app.get(
         }
       });
 
-      res.redirect(`https://www.mindboard.live/auth/google`);
+      res.redirect(`https://www.mindboard.live/`);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
@@ -230,7 +230,7 @@ app.get(
 
 // * Get Routes
 app.get("/", (req, res) => {
-  res.redirect("https://www.mindboard.live/auth/google");
+  res.redirect("https://www.mindboard.live/");
 });
 
 app.get("/api/logout", (req, res) => {
