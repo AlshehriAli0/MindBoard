@@ -603,6 +603,11 @@ video {
   position: relative;
 }
 
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
 .inset-0 {
   inset: 0px;
 }
@@ -996,20 +1001,16 @@ video {
   margin-top: 6rem;
 }
 
-.mt-28 {
-  margin-top: 7rem;
-}
-
 .mt-4 {
   margin-top: 1rem;
 }
 
-.mt-5 {
-  margin-top: 1.25rem;
+.mt-44 {
+  margin-top: 11rem;
 }
 
-.mt-64 {
-  margin-top: 16rem;
+.mt-5 {
+  margin-top: 1.25rem;
 }
 
 .mt-8 {
@@ -1020,12 +1021,20 @@ video {
   margin-top: 20rem;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
 .mt-px {
   margin-top: 1px;
 }
 
-.mr-6 {
-  margin-right: 1.5rem;
+.mt-64 {
+  margin-top: 16rem;
+}
+
+.mt-28 {
+  margin-top: 7rem;
 }
 
 .box-border {
@@ -1692,10 +1701,6 @@ video {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.justify-around {
-  justify-content: space-around;
 }
 
 .gap-1 {
@@ -2850,11 +2855,6 @@ video {
   padding-bottom: 1.5rem;
 }
 
-.px-12 {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-
 .\!pr-7 {
   padding-right: 1.75rem !important;
 }
@@ -2879,6 +2879,10 @@ video {
   padding-bottom: 1rem;
 }
 
+.pl-1 {
+  padding-left: 0.25rem;
+}
+
 .pl-10 {
   padding-left: 2.5rem;
 }
@@ -2893,6 +2897,10 @@ video {
 
 .pr-1 {
   padding-right: 0.25rem;
+}
+
+.pr-4 {
+  padding-right: 1rem;
 }
 
 .pt-0 {
@@ -2945,22 +2953,6 @@ video {
 
 .pt-px {
   padding-top: 1px;
-}
-
-.pr-6 {
-  padding-right: 1.5rem;
-}
-
-.pr-4 {
-  padding-right: 1rem;
-}
-
-.pr-2 {
-  padding-right: 0.5rem;
-}
-
-.pl-1 {
-  padding-left: 0.25rem;
 }
 
 .text-left {
@@ -3475,24 +3467,16 @@ video {
   opacity: 1;
 }
 
+.opacity-40 {
+  opacity: 0.4;
+}
+
 .opacity-50 {
   opacity: 0.5;
 }
 
 .opacity-80 {
   opacity: 0.8;
-}
-
-.opacity-60 {
-  opacity: 0.6;
-}
-
-.opacity-30 {
-  opacity: 0.3;
-}
-
-.opacity-40 {
-  opacity: 0.4;
 }
 
 .shadow {
@@ -4934,11 +4918,6 @@ video {
   background-color: rgb(255 235 59 / 0.1);
 }
 
-.hover\:bg-gray-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(97 97 97 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-opacity-80:hover {
   --tw-bg-opacity: 0.8;
 }
@@ -4970,14 +4949,6 @@ video {
 
 .hover\:opacity-75:hover {
   opacity: 0.75;
-}
-
-.hover\:opacity-100:hover {
-  opacity: 1;
-}
-
-.hover\:opacity-70:hover {
-  opacity: 0.7;
 }
 
 .hover\:opacity-80:hover {
@@ -6440,14 +6411,14 @@ video {
     padding-right: 1.25rem;
   }
 
-  .sm\:py-2 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-
   .sm\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .sm\:py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   .sm\:pt-16 {

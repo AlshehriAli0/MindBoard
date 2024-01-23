@@ -2,6 +2,53 @@ html {
     background-color: rgb(225, 225, 225);
 }
 
+#portal-root{
+    max-height: 20% !important;
+}
+#root{
+    min-height: 20vh !important;
+}
+.footer {
+    margin-top: 10vh;
+    bottom: 0;
+}
+
+@media only screen and (max-width: 480px) {
+    .footer {
+        margin-top: 47vh;
+    }
+}
+
+@media only screen and (max-width: 480px) and (min-height: 900px) {
+    .footer {
+        margin-top: 52vh;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 1000px) {
+    .footer {
+        margin-top: 47vh;
+    }
+}
+
+@media only screen and (min-width: 800px) and (min-height: 1000px) {
+    .footer {
+        margin-top: 63vh;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .footer {
+        margin-top: 36vh;
+    }
+}
+
+@media only screen and (min-width: 800px) and (min-height: 800px) {
+    .footer {
+        margin-top: 51vh;
+    }
+}
+
 body {
     font-family: 'Roboto', sans-serif;
 }

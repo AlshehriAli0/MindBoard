@@ -5,8 +5,9 @@ function Footer({ item }) {
   return (
     <div
       className={`${
-        item.length > 0 ? " mt-28 lg:mt-28 " : "mt-64 lg:mt-64"
-      }  bottom-0 w-full text-center md:pt-0 pt-10 shadow-top shadow-lg`}
+        item.length > 0 ? " mt-28 lg:mt-28  " : " mt-44 lg:mt-64"
+      } 
+       bottom-0 w-full text-center md:pt-0 pt-10 shadow-top shadow-lg footer`}
     >
       <hr className="w-full border-gray-400" />
       <div className="flex justify-between sm:px-8 px-5 items-center h-16">

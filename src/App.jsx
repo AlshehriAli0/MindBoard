@@ -32,13 +32,11 @@ function App() {
         withCredentials: true,
       });
       setItem(result.data.notes);
-     
 
       result.status === 200
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
       setIsLoading(false);
-      console.log("fetching data")
     } catch (err) {
       console.log(err);
     }
@@ -110,9 +108,8 @@ function App() {
               setDeleteMsg={setDeleteMsg}
               setUpdateMsg={setUpdateMsg}
             />
-
-            {isAuthenticated && <Footer item={item} />}
           </div>
+          {isAuthenticated && <Footer item={item} />}
         </>
       )}
     </>
