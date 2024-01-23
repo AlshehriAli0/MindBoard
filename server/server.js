@@ -278,7 +278,7 @@ app.get("/api/notes", async (req, res) => {
     const sortOrder = req.query.sortOrder || "ascending";
     const sortDirection = sortOrder === "ascending" ? -1 : 1;
 
-    let user = await User.findById(req.user._id).populate({
+    const user = await User.findById(req.user._id).populate({
       path: "notes",
       options: { sort: { createdAt: sortDirection } },
     });
