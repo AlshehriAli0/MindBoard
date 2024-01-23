@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
+import GoogleAuthButton from "./GoogleAuthButton";
 import { LineWave } from "react-loader-spinner";
 import { passwordStrength } from "check-password-strength";
 
-function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
+function SignForm({
+  closeForm,
+  fetchData,
+  setIsAuthenticated,
+  setSuccessMsg,
+
+}) {
   // * password options
   const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
 
@@ -189,7 +196,7 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
             </div>
 
             {/* //* Password */}
-            <div className="mb-6 relative pb-4">
+            <div className=" relative pb-4">
               <label
                 htmlFor="password"
                 className={`absolute cursor-text left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
@@ -235,11 +242,14 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
             <button
               type="submit"
               form="SignUpForm"
-              className="text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-sm "
+              className="text-white mb-2 bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-sm "
             >
               Sign Up
             </button>
           </form>
+          <GoogleAuthButton
+            msg={"Sign Up With Google"}
+          />
         </div>
       </div>
     </>

@@ -14,7 +14,7 @@ function DeleteMsg({ msg }) {
   return (
     <div className=" animate-fade-up animate-duration-[500ms] animate-ease-out shadow-xl z-40">
       <div
-        className={` fixed scale-90 top-0 mb-10 right-12 py-1 px-3 rounded-xl bg-white ${
+        className={` fixed scale-90 top-0 mb-10 right-12 py-1 px-3 rounded-lg bg-white ${
           fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
         } flex justify-center items-center border-2 border-gray-800 space-x-1`}
       >

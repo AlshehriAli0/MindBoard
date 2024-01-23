@@ -14,7 +14,7 @@ function UpdateMsg({ msg }) {
   return (
     <div className=" animate-fade-up animate-duration-[500ms] animate-ease-out shadow-xl ">
       <div
-        className={` fixed scale-75 md:mt-0 mt-8 top-0  md:right-12 right-8 py-1 px-3 rounded-xl bg-white ${
+        className={` fixed scale-75 md:mt-0 mt-8 top-0  md:right-12 right-8 py-1 px-3 rounded-lg bg-white ${
           fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
         } flex justify-center items-center border-2 border-teal-500 space-x-1`}
       >

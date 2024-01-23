@@ -13,6 +13,7 @@ import path from "path";
 import { customAlphabet } from "nanoid";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import GoogleStrategy from "passport-google-oauth20";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -36,6 +37,15 @@ const saltRounds = getRandomSaltRounds(
   Number(process.env.MIN),
   Number(process.env.MAX)
 );
+
+// * Validate first name
+function validateFirstName(firstName) {
+  console.log("Validating first name:", firstName);
+  if (!firstName.match(/^[a-zA-Z]+$/)) {
+    return false;
+  }
+  return true;
+}
 
 // * Middleware
 app.use(express.static("build"));
@@ -78,6 +88,8 @@ const userSchema = new Schema(
     email: { type: String, unique: true },
     password: String,
     id: String,
+    googleId: String,
+    isNewUser: { type: Boolean, default: true },
     notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Note" }],
     createdAt: { type: Date, default: Date.now },
   },
@@ -85,11 +97,15 @@ const userSchema = new Schema(
 );
 
 // * Note schema
-const NoteSchema = new Schema({
-  title: String,
-  content: String,
-  id: String,
-});
+const NoteSchema = new Schema(
+  {
+    title: String,
+    content: String,
+    id: String,
+    favorite: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
 
 userSchema.plugin(passportLocalMongoose);
 
@@ -115,6 +131,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+// * local strategy
 passport.use(
   new LocalStrategy(
     {
@@ -138,8 +155,83 @@ passport.use(
   )
 );
 
+// * google strategy
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let firstName = profile.name.givenName;
+        console.log("First name:", firstName);
+
+        if (!validateFirstName(firstName)) {
+          firstName = "User";
+        }
+
+        let user = await User.findOne({ email: profile.emails[0].value });
+
+        if (user) {
+          user.firstName = firstName;
+          user.isNewUser = false;
+          done(null, user);
+        } else {
+          user = await new User({
+            googleId: profile.id,
+            name: firstName,
+            email: profile.emails[0].value,
+            isNewUser: true,
+          }).save();
+          user.isNewUser = true;
+          done(null, user);
+        }
+      } catch (err) {
+        done(err, null);
+      }
+    }
+  )
+);
+
+// * Google auth routes
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "https://mindboard.live/",
+  }),
+  async (req, res) => {
+    try {
+      const user = await req.user;
+
+      if (!user) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+
+      req.login(user, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+      });
+
+      res.redirect(`https://mindboard.live/`);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
+
 // * Get Routes
-app.get("/", (req, res) => {});
+app.get("/", (req, res) => {
+  res.redirect("https://mindboard.live/");
+});
 
 app.get("/api/logout", (req, res) => {
   req.logout((err) => {
@@ -156,7 +248,16 @@ app.get("/api/user", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json({ name: user.name, email: user.email, date: user.createdAt });
+    res.json({
+      name: user.name,
+      email: user.email,
+      date: user.createdAt,
+      isNewUser: user.isNewUser,
+    });
+    setImmediate(async () => {
+      user.isNewUser = false;
+      await user.save();
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -166,7 +267,7 @@ app.get("/api/user", async (req, res) => {
 app.get("/api/notes", async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate("notes");
-    res.json(user.notes);
+    res.json({ notes: user.notes });
   } catch (err) {
     res
       .status(500)
@@ -262,11 +363,7 @@ app.post("/api/updateNote", async (req, res) => {
   const filter = { id: id };
   const update = { title: title, content: content };
   try {
-    const note = await Note.findOneAndUpdate(
-      filter,
-      update,
-      { new: true }
-    );
+    const note = await Note.findOneAndUpdate(filter, update, { new: true });
 
     if (!note) {
       return res.status(404).json({ message: "Note not found" });

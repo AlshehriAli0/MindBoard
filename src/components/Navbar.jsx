@@ -12,6 +12,7 @@ function Navbar({
   setSuccessMsg,
   setEmailSuccessMsg,
   setNameMsg,
+  setInvalidName,
 }) {
   const [currentForm, setCurrentForm] = useState(null);
 
@@ -29,6 +30,7 @@ function Navbar({
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             setWelcomeMsg={setWelcomeMsg}
+            setNameMsg={setNameMsg}
           />
         );
       case "signup":
@@ -39,6 +41,7 @@ function Navbar({
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             setSuccessMsg={setSuccessMsg}
+            setEmailSuccessMsg={setEmailSuccessMsg}
           />
         );
       default:
@@ -52,6 +55,7 @@ function Navbar({
         <NavBtn
           handleButtonClick={handleButtonClick}
           currentForm={currentForm}
+          
         />
       );
     } else {
@@ -60,6 +64,10 @@ function Navbar({
           fetchData={fetchData}
           setEmailSuccessMsg={setEmailSuccessMsg}
           setNameMsg={setNameMsg}
+          setInvalidName={setInvalidName}
+          setSuccessMsg={setSuccessMsg}
+          setWelcomeMsg={setWelcomeMsg}
+          
         />
       );
     }
@@ -82,17 +90,6 @@ function Navbar({
           {renderNavBtn()}
           {createPortal(renderForm(), document.getElementById("root"))}
 
-          {/* {success &&
-            createPortal(
-              <SuccessMsg msg="Sign Up Successful" />,
-              document.getElementById("root")
-            )} */}
-
-          {/* {welcome &&
-            createPortal(
-              <WelcomeMsg msg="Welcome Back " />,
-              document.getElementById("root")
-            )} */}
         </div>
       </nav>
     </>

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
+import GoogleAuthButton from "./GoogleAuthButton";
 
-function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcomeMsg }) {
+function LogForm({
+  closeForm,
+  fetchData,
+  setIsAuthenticated,
+  setWelcomeMsg,
+}) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -57,7 +63,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcomeMsg }) {
       console.error(error);
     }
     setIsLoading(false);
-    
+
     // * remove welcome message
     setTimeout(() => {
       setWelcomeMsg(false);
@@ -126,7 +132,7 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcomeMsg }) {
             </div>
 
             {/* //* Password */}
-            <div className="mb-6 relative pb-4">
+            <div className="mb-2 relative pb-4">
               <label
                 htmlFor="password"
                 className={`absolute cursor-text left-2 top-4 text-gray-500 font-semibold text-md transition-transform bg-white px-2 ${
@@ -173,12 +179,15 @@ function LogForm({ closeForm, fetchData, setIsAuthenticated, setWelcomeMsg }) {
               type="submit"
               form="loginForm"
               className={
-                "text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-sm  "
+                "text-white bg-gray-800 w-full px-5 py-2 border border-solid border-gray-900 rounded transition hover:bg-gray-900 hover:text-white active:translate-y-1 active:translate-x-1 duration-300 font-semibold text-sm mb-2"
               }
             >
               Login
             </button>
           </form>
+          <GoogleAuthButton
+            msg={"Log In With Google"}
+          />
         </div>
       </div>
     </>

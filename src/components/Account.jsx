@@ -23,6 +23,11 @@ function Account({
 
   // * toggle edit mode
   const handleEditToggle = () => {
+    // * reset edited values when user cancels edit
+    if (isEditing) {
+      setEditedName(initialName);
+      setEditedEmail(initialEmail);
+    }
     setIsEditing(!isEditing);
   };
 
@@ -51,11 +56,18 @@ function Account({
     }
 
     // * Check if user has made any changes
-    if (editedName === initialName && editedEmail === initialEmail) {
+
+    if (editedName === "User") {
+      setErrorMessage("Please Change The Default Name!");
+      setIsLoading(false);
+    } else if (editedName === "User" || editedName === "user") {
+      setErrorMessage("Please Change The Default Name!");
+      setIsLoading(false);
+    } else if (editedName === initialName && editedEmail === initialEmail) {
       setErrorMessage("No Changes Made");
       setIsEditing(false);
       setIsLoading(false);
-    } else{
+    } else {
       // * POST request to update user data
       try {
         const response = await axios.post(
@@ -185,12 +197,14 @@ function Account({
               <button
                 className="px-8 py-2 bg-gray-800 text-white rounded transition hover:bg-gray-900 duration-300 whitespace-nowrap"
                 onClick={handleSaveChanges}
+                disabled={editedName === "" || editedEmail === ""}
               >
                 Save Changes
               </button>
               <button
                 className="px-6  bg-transparent rounded transition hover:bg-gray-900 hover:text-white duration-300 border-2 border-gray-900 text-black"
                 onClick={handleEditToggle}
+                disabled={editedName === "User" || editedName === "user"}
               >
                 Cancel
               </button>

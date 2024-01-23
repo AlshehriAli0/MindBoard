@@ -767,10 +767,6 @@ video {
   top: 50%;
 }
 
-.top-28 {
-  top: 7rem;
-}
-
 .top-3 {
   top: 0.75rem;
 }
@@ -972,6 +968,14 @@ video {
   margin-right: 1.25rem;
 }
 
+.mt-0 {
+  margin-top: 0px;
+}
+
+.mt-0\.5 {
+  margin-top: 0.125rem;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -1018,14 +1022,6 @@ video {
 
 .mt-px {
   margin-top: 1px;
-}
-
-.mt-0 {
-  margin-top: 0px;
-}
-
-.mt-0\.5 {
-  margin-top: 0.125rem;
 }
 
 .box-border {
@@ -5030,6 +5026,15 @@ video {
 .hover\:shadow-yellow-500\/40:hover {
   --tw-shadow-color: rgb(255 235 59 / 0.4);
   --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:invert:hover {
+  --tw-invert: invert(100%);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.hover\:filter:hover {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .hover\:before\:opacity-10:hover::before {

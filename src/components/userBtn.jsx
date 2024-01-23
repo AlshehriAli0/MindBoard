@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Account from "./Account";
 
-function UserBtn({ setEmailSuccessMsg, setNameMsg }) {
+function UserBtn({
+  setEmailSuccessMsg,
+  setNameMsg,
+  setInvalidName,
+  setSuccessMsg,
+  setWelcomeMsg,
+}) {
   // * hooks
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -38,6 +44,24 @@ function UserBtn({ setEmailSuccessMsg, setNameMsg }) {
       setUser(res.data.name);
       setEmail(res.data.email);
       setDate(res.data.date);
+
+      // * check if user is new
+
+      if (res.data.isNewUser) {
+        if (res.data.name === "User") {
+          return;
+        }
+        setSuccessMsg(true);
+      } else {
+        setWelcomeMsg(true);
+      }
+
+      // * check if user name is invalid
+      if (res.data.name === "User") {
+        setInterval(() => {
+          setInvalidName(true);
+        }, 3000);
+      }
     } catch (err) {
       console.error(err);
     }

@@ -21,6 +21,7 @@ function App() {
   const [emailSuccessMsg, setEmailSuccessMsg] = useState(false);
   const [nameMsg, setNameMsg] = useState(false);
   const [updateMsg, setUpdateMsg] = useState(false);
+  const [invalidName, setInvalidName] = useState(false);
 
   // * fetch data from server
   const fetchData = async () => {
@@ -29,7 +30,8 @@ function App() {
       const result = await axios.get("/api/notes", {
         withCredentials: true,
       });
-      setItem(result.data);
+      setItem(result.data.notes);
+      
       result.status === 200
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
@@ -81,6 +83,7 @@ function App() {
               setSuccessMsg={setSuccessMsg}
               setEmailSuccessMsg={setEmailSuccessMsg}
               setNameMsg={setNameMsg}
+              setInvalidName={setInvalidName}
             />
             <Intro isAuthenticated={isAuthenticated} />
 
@@ -93,6 +96,7 @@ function App() {
               deleteMsg={deleteMsg}
               welcomeMsg={welcomeMsg}
               updateMsg={updateMsg}
+              invalidName={invalidName}
             />
 
             <Note

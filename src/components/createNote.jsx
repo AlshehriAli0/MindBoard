@@ -7,6 +7,7 @@ import WelcomeMsg from "./WelcomeMsg.jsx";
 import UpdateMsg from "./UpdateMsg.jsx";
 import { LineWave } from "react-loader-spinner";
 import NoteMsg from "./NoteMsg";
+import FailMsg from "./FailMsg";
 
 function CreateNote({
   fetchData,
@@ -17,6 +18,7 @@ function CreateNote({
   nameMsg,
   emailSuccessMsg,
   updateMsg,
+  invalidName,
 }) {
   // * hooks
   const [title, setTitle] = useState("");
@@ -131,6 +133,9 @@ function CreateNote({
             {welcomeMsg && <WelcomeMsg msg="Welcome Back!" />}
             {showNoteMsg && <NoteMsg msg="Note Created " />}
             {updateMsg && <NoteMsg msg="Note Updated!" />}
+            {invalidName && (
+              <FailMsg msg="Invalid Name From Google. Please Update It In Your Account Settings!" />
+            )}
           </div>
         </>,
         document.getElementById("portal-root")
