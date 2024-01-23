@@ -22,20 +22,23 @@ function App() {
   const [nameMsg, setNameMsg] = useState(false);
   const [updateMsg, setUpdateMsg] = useState(false);
   const [invalidName, setInvalidName] = useState(false);
+  const [sortOrder, setSortOrder] = useState("ascending");
 
   // * fetch data from server
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const result = await axios.get("/api/notes", {
+      const result = await axios.get(`http://localhost:8080/api/notes?sortOrder=${sortOrder}`, {
         withCredentials: true,
       });
       setItem(result.data.notes);
-      
+     
+
       result.status === 200
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
       setIsLoading(false);
+      console.log("fetching data")
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +47,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [sortOrder]);
 
   const handleGetStarted = () => {
     setShowLandingPage(false);
@@ -97,6 +100,8 @@ function App() {
               welcomeMsg={welcomeMsg}
               updateMsg={updateMsg}
               invalidName={invalidName}
+              setSortOrder={setSortOrder}
+              SortOrder={sortOrder}
             />
 
             <Note

@@ -4,13 +4,7 @@ import GoogleAuthButton from "./GoogleAuthButton";
 import { LineWave } from "react-loader-spinner";
 import { passwordStrength } from "check-password-strength";
 
-function SignForm({
-  closeForm,
-  fetchData,
-  setIsAuthenticated,
-  setSuccessMsg,
-
-}) {
+function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
   // * password options
   const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
 
@@ -64,7 +58,9 @@ function SignForm({
     // * post request to server
     try {
       await axios
-        .post("/api/signUp", data, { withCredentials: true })
+        .post("/api/signUp", data, {
+          withCredentials: true,
+        })
         .then((response) => {
           // * clear form
           setName("");
@@ -247,9 +243,7 @@ function SignForm({
               Sign Up
             </button>
           </form>
-          <GoogleAuthButton
-            msg={"Sign Up With Google"}
-          />
+          <GoogleAuthButton msg={"Sign Up With Google"} />
         </div>
       </div>
     </>

@@ -51,11 +51,11 @@ function validateFirstName(firstName) {
 
 // * Middleware
 app.use((req, res, next) => {
-  if (req.header("x-forwarded-proto") !== "https") {
-    res.redirect(`https://${req.header("host")}${req.url}`);
-  } else {
-    next();
-  }
+if (req.header("x-forwarded-proto") !== "https") {
+res.redirect(`https://${req.header("host")}${req.url}`);
+} else {
+next();
+}
 });
 app.use(express.static("build"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -214,7 +214,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "https://www.mindboard.live/",
-  }),
+      }),
   async (req, res) => {
     try {
       const user = await req.user;
@@ -230,7 +230,7 @@ app.get(
       });
 
       res.redirect(`https://www.mindboard.live/`);
-    } catch (error) {
+          } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
@@ -240,7 +240,7 @@ app.get(
 // * Get Routes
 app.get("/", (req, res) => {
   res.redirect("https://www.mindboard.live/");
-});
+  });
 
 app.get("/api/logout", (req, res) => {
   req.logout((err) => {
@@ -275,7 +275,14 @@ app.get("/api/user", async (req, res) => {
 
 app.get("/api/notes", async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).populate("notes");
+    const sortOrder = req.query.sortOrder || "ascending";
+    const sortDirection = sortOrder === "ascending" ? -1 : 1;
+
+    let user = await User.findById(req.user._id).populate({
+      path: "notes",
+      options: { sort: { createdAt: sortDirection } },
+    });
+
     res.json({ notes: user.notes });
   } catch (err) {
     res
@@ -285,6 +292,7 @@ app.get("/api/notes", async (req, res) => {
 });
 
 // * Post Routes
+
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
   if (req.isAuthenticated()) {
     res.status(200).json({ authenticated: true, message: "Login successful" });

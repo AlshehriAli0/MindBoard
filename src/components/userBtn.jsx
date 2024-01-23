@@ -71,7 +71,6 @@ function UserBtn({
     fetchUserData();
   }, []);
 
-  //
   const handleUpdateUser = async () => {
     fetchUserData();
   };

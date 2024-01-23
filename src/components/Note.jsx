@@ -32,7 +32,6 @@ function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
 
   // * edit note
   const updateNote = async () => {
-    // If the note hasn't been edited, exit edit mode and close the menu
     if (editedTitle === props.Title && editedContent === props.Content) {
       setIsMenuOpen(false);
       setIsEditing(false);
@@ -123,7 +122,7 @@ function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
           )}
           <div className="absolute right-0 top-0 md:mr-2 md:mt-2 mt-1 mr-1 z-50">
             <button
-              className={`px-2 py-1 transition hover:bg-gray-200 ${
+              className={`px-2 py-1 transition active:bg-gray-500 hover:bg-gray-200 ${
                 isMenuOpen ? "bg-gray-200" : ""
               } duration-300 rounded`}
               onClick={toggleMenu}
@@ -142,7 +141,7 @@ function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
             >
               <button
                 onClick={toggleEditing}
-                className="flex w-full justify-center space-x-1 align-middle px-5 py-2 text-gray-800 hover:bg-gray-200 hover:text-black duration-200 focus:outline-none z-50"
+                className="flex w-full justify-center space-x-1 align-middle px-5 py-2 text-gray-800 transition active:bg-gray-300 hover:bg-gray-200 hover:text-black duration-200 focus:outline-none z-50"
               >
                 <img
                   className={`h-4  ${
@@ -162,7 +161,7 @@ function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
               {isEditing && (
                 <>
                   <button
-                    className="flex w-full justify-center space-x-2 align-middle px-5 py-2 text-gray-800 hover:bg-gray-200 hover:text-black duration-200 focus:outline-none z-50 "
+                    className="flex w-full justify-center space-x-2 align-middle px-5 py-2 text-gray-800 transition hover:bg-gray-200 hover:text-black active:bg-gray-300 duration-200 focus:outline-none z-50 "
                     onClick={updateNote}
                   >
                     <img
@@ -177,7 +176,7 @@ function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
               )}
               <button
                 onClick={deleteNote}
-                className="flex justify-center space-x-1 align-middle px-5 py-2 text-gray-800 hover:bg-gray-200 hover:text-black duration-200 focus:outline-none z-50"
+                className="flex justify-center space-x-1 align-middle px-5 py-2 text-gray-800 transition active:bg-gray-300 hover:bg-gray-200 hover:text-black duration-200 focus:outline-none z-50"
               >
                 <img
                   src={`${process.env.PUBLIC_URL}/assets/bin.png`}
