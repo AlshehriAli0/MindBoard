@@ -21,9 +21,9 @@ function FailMsg({ msg }) {
         <img
           src={`${process.env.PUBLIC_URL}/assets/exclamation-mark-red.png`}
           alt="exclamation mark"
-          className="h-10 inline-block rounded-full"
+          className="h-10 pl-2 inline-block rounded-full"
         />
-        <p className="font-semibold text-xl text-red-700 pl-2 pr-1">{msg}</p>
+        <p className="font-semibold text-xl text-red-700 pl-1 pr-1">{msg}</p>
       </div>
     </div>
   );
