@@ -21,7 +21,7 @@ function WelcomeMsg({ msg }) {
         <img
           src={`${process.env.PUBLIC_URL}/assets/hello.png`}
           alt="hand wave"
-          className="h-8 inline-block rounded-full"
+          className="h-8 inline-block rounded-lg"
         />
         <p className="font-semibold text-xl text-gray-900 pr-1">{msg}</p>
       </div>

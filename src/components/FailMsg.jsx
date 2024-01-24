@@ -23,7 +23,7 @@ function FailMsg({ msg }) {
           alt="exclamation mark"
           className="h-10 inline-block rounded-full"
         />
-        <p className="font-semibold text-xl text-red-700 pr-1">{msg}</p>
+        <p className="font-semibold text-xl text-red-700 pl-2 pr-1">{msg}</p>
       </div>
     </div>
   );
