@@ -212,7 +212,7 @@ function Note({setUpdateMsg, setDeleteMsg, ...props }) {
 
   return (
     <>
-      <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 lg:w-5/6 w-11/12 mx-auto justify-self-center sm:pt-16 pt-6 z-0">
+      <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4 lg:w-5/6 w-11/12 mx-auto justify-self-center sm:pt-16 pt-6 z-0 sm:pb-24">
         {data.map((item) =>
           createCard({
             ...item,

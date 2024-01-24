@@ -14,7 +14,7 @@ function FailMsg({ msg }) {
   return (
     <div className=" animate-fade-left animate-duration-[500ms] animate-ease-out shadow-xl ">
       <div
-        className={` fixed scale-75 top-0 right-0 py-1 px-3 rounded-lg bg-white ${
+        className={` fixed scale-75 w-content top-auto sm:top-0 bottom-0 sm:bottom-auto right-0 py-1 sm:px-3 rounded-lg bg-white ${
           fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
         } flex justify-center items-center border-2 border-red-500 space-x-1`}
       >
