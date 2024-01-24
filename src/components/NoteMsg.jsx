@@ -21,7 +21,7 @@ function NoteMsg({ msg }) {
         <img
           src={`${process.env.PUBLIC_URL}/assets/check.png`}
           alt="hand wave"
-          className="h-7 inline-block rounded-full opacity-80"
+          className="h-7 inline-block rounded-lg opacity-80"
         />
         <p className="font-semibold text-xl text-gray-900 pr-1">{msg}</p>
       </div>

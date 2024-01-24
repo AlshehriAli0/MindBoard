@@ -16,7 +16,7 @@ function FailMsg({ msg }) {
       <div
         className={` fixed scale-75 w-content top-auto sm:top-0 bottom-0 sm:bottom-auto right-0 py-1 sm:px-3 rounded-lg bg-white ${
           fadeDown ? " transition-opacity duration-200 ease-out opacity-0" : ""
-        } flex justify-center items-center border-2 border-red-500 space-x-1`}
+        } flex justify-center items-center border-2 border-red-500 space-x-3`}
       >
         <img
           src={`${process.env.PUBLIC_URL}/assets/exclamation-mark-red.png`}
