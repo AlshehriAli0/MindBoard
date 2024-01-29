@@ -29,6 +29,7 @@ function App() {
   const fetchData = async () => {
     if (!isAuthenticated) {
       console.log("User is not authenticated, not fetching data");
+      setIsLoading(false);
       return;
     }
     setIsLoading(true);
