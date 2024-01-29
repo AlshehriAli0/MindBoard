@@ -1,7 +1,7 @@
 {
   "name": "mindboard",
   "type": "module",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "private": true,
   "dependencies": {
     "@material-tailwind/react": "^2.1.8",
@@ -37,7 +37,7 @@
   "scripts": {
     "start": "cd server && node server.js",
     "react": "react-scripts start",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install ",
     "prod": "npm install",
     "build": "react-scripts build",
     "tailwind": "npx tailwindcss -i ./public/styles/input.css -o ./public/styles/output.css  --watch",
