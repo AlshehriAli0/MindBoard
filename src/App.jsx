@@ -44,7 +44,7 @@ function App() {
     setIsLoading(false);
 
     // * toggle refresh
-    setRefresh(!refresh);
+    setRefresh(false);
   };
 
   useEffect(() => {
