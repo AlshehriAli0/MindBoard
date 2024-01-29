@@ -23,8 +23,8 @@ function CreateNote({
   SortOrder,
 }) {
   // * hooks
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(localStorage.getItem("title") || "");
+  const [content, setContent] = useState(localStorage.getItem("content") || "");
   const [isLoading, setIsLoading] = useState(false);
   const [showNoteMsg, setShowNoteMsg] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
