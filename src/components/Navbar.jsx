@@ -109,7 +109,7 @@ function NavBtn({ handleButtonClick, currentForm }) {
           currentForm === "signup" ? "scale-110" : ""
         }`}
       >
-        SignUp
+        SIGNUP
       </button>
     </div>
   );
