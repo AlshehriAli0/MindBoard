@@ -27,6 +27,10 @@ function App() {
 
   // * fetch data from server
   const fetchData = async () => {
+    if (!isAuthenticated) {
+      console.log("User is not authenticated, not fetching data");
+      return;
+    }
     setIsLoading(true);
     try {
       const result = await axios.get(`/api/notes?sortOrder=${sortOrder}`, {

@@ -126,7 +126,7 @@ function LogForm({
                 }}
                 onFocus={() => setFocusedE(true)}
                 onBlur={() => setFocusedE(false)}
-              />{" "}
+              />
             </div>
 
             {/* //* Password */}
