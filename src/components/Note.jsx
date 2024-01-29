@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import axios from "axios";
 
 
-function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
+const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
   // * hooks
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -191,7 +191,7 @@ function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
       </div>
     </>
   );
-}
+});
 
 function createCard(props) {
   return (

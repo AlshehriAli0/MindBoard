@@ -30,7 +30,7 @@ function LogForm({
     };
     try {
       await axios
-        .post("/api/login", data, {
+        .post("http://localhost:8080/api/login", data, {
           withCredentials: true,
         })
         .then((response) => {
