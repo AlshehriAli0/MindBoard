@@ -29,7 +29,7 @@ function LogForm({
     };
     try {
       await axios
-        .post("http://localhost:8080/api/login", data, {
+        .post("/api/login", data, {
           withCredentials: true,
         })
         .then((response) => {
@@ -90,7 +90,7 @@ function LogForm({
       <div
         id="form-container"
         className={
-          "flex items-center mt-80 mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
+          "flex items-center sm:mt-64 mt-80 mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
         }
       >
         <img
@@ -183,9 +183,7 @@ function LogForm({
               Login
             </button>
           </form>
-          <GoogleAuthButton
-            msg={"Log In With Google"}
-          />
+          <GoogleAuthButton msg={"Log In With Google"} />
         </div>
       </div>
     </>

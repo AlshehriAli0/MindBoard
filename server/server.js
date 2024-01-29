@@ -56,7 +56,7 @@ res.redirect(`https://${req.header("host")}${req.url}`);
 next();
 }
 });
-app.use(express.static(path.resolve(__dirname, "../build")));
+app.use(express.static(path.resolve(__dirname, '../build')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

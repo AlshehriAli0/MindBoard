@@ -119,7 +119,7 @@ function SignForm({ closeForm, setIsAuthenticated, setSuccessMsg }) {
       <div
         id="form-container"
         className={
-          "flex mt-80 items-center mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
+          "flex sm:mt-64 mt-80 items-center mx-auto bg-gray-100 z-10 h-0 w-80 sm:w-96 bg-transparent animate-duration-[600ms] animate-fade-down animate-ease-out"
         }
       >
         <img
