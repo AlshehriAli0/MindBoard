@@ -4,7 +4,7 @@ import GoogleAuthButton from "./GoogleAuthButton";
 import { LineWave } from "react-loader-spinner";
 import { passwordStrength } from "check-password-strength";
 
-function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
+function SignForm({ closeForm, setIsAuthenticated, setSuccessMsg }) {
   // * password options
   const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
 
@@ -71,7 +71,6 @@ function SignForm({ closeForm, fetchData, setIsAuthenticated, setSuccessMsg }) {
           closeForm("");
 
           if (response.data.authenticated) {
-            fetchData();
             setIsAuthenticated(true);
 
             // * set success message

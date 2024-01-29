@@ -133,7 +133,7 @@ function UserBtn({
       {showAccount && (
         <Account
           toggleAccount={toggleAccount}
-          fetchData={handleUpdateUser}
+          handleUpdateUser={handleUpdateUser}
           name={user}
           email={email}
           date={date}

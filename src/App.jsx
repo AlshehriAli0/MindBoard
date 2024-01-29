@@ -12,6 +12,7 @@ import axios from "axios";
 function App() {
   // * hooks
   const [item, setItem] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,11 +42,14 @@ function App() {
       console.log(err);
     }
     setIsLoading(false);
+
+    // * toggle refresh
+    setRefresh(!refresh);
   };
 
   useEffect(() => {
     fetchData();
-  }, [sortOrder]);
+  }, [sortOrder, isAuthenticated, refresh]);
 
   const handleGetStarted = () => {
     setShowLandingPage(false);
@@ -78,7 +82,6 @@ function App() {
           <div className="">
             <Navbar
               setWelcomeMsg={setWelcomeMsg}
-              fetchData={fetchData}
               isAuthenticated={isAuthenticated}
               setIsAuthenticated={setIsAuthenticated}
               setSuccessMsg={setSuccessMsg}
@@ -89,7 +92,7 @@ function App() {
             <Intro isAuthenticated={isAuthenticated} />
 
             <CreateNote
-              fetchData={fetchData}
+              setRefresh={setRefresh}
               isAuthenticated={isAuthenticated}
               emailSuccessMsg={emailSuccessMsg}
               nameMsg={nameMsg}
@@ -104,7 +107,7 @@ function App() {
 
             <Note
               dataFromApp={item}
-              fetchData={fetchData}
+              setRefresh={setRefresh}
               setDeleteMsg={setDeleteMsg}
               setUpdateMsg={setUpdateMsg}
             />

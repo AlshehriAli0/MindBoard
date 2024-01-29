@@ -51,7 +51,7 @@ const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
 
       setIsMenuOpen(false);
       setIsEditing(false);
-      props.fetchData();
+      props.setRefresh(true);
 
       setUpdateMsg(true);
     } catch (error) {
@@ -79,7 +79,7 @@ const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
       setDeleteMsg(true);
 
       setTimeout(() => {
-        props.fetchData();
+        props.setRefresh(true);
       }, 200);
 
       setTimeout(() => {
@@ -200,7 +200,7 @@ function createCard(props) {
       Title={props.title}
       Content={props.content}
       id={props.id}
-      fetchData={props.fetchData}
+      setRefresh={props.setRefresh}
       setDeleteMsg={props.setDeleteMsg}
       setUpdateMsg={props.setUpdateMsg}
     />
@@ -216,7 +216,7 @@ function Note({setUpdateMsg, setDeleteMsg, ...props }) {
         {data.map((item) =>
           createCard({
             ...item,
-            fetchData: props.fetchData,
+            setRefresh: props.setRefresh,
             setDeleteMsg,
             setUpdateMsg,
           })

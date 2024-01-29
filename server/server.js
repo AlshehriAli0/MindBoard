@@ -42,7 +42,6 @@ const saltRounds = getRandomSaltRounds(
 
 // * Validate first name
 function validateFirstName(firstName) {
-  console.log("Validating first name:", firstName);
   if (!firstName.match(/^[a-zA-Z]+$/)) {
     return false;
   }
@@ -175,7 +174,6 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         let firstName = profile.name.givenName;
-        console.log("First name:", firstName);
 
         if (!validateFirstName(firstName)) {
           firstName = "User";
@@ -303,7 +301,6 @@ app.post("/api/login", passport.authenticate("local"), (req, res) => {
 
 app.post("/api/signUp", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log("Signup attempt:", name, email);
 
   // *hashing password
   const hashedPassword = bcrypt.hashSync(password, saltRounds);

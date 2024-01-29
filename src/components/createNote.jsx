@@ -10,7 +10,7 @@ import NoteMsg from "./NoteMsg";
 import FailMsg from "./FailMsg";
 
 function CreateNote({
-  fetchData,
+  setRefresh,
   isAuthenticated,
   welcomeMsg,
   deleteMsg,
@@ -46,8 +46,7 @@ function CreateNote({
         .then(() => {
           setTitle("");
           setContent("");
-          console.log(data);
-          fetchData();
+          setRefresh(true);
 
           // * show Note message
           setTimeout(() => {
@@ -75,6 +74,15 @@ function CreateNote({
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  //* Whenever title or content changes, update localStorage
+  React.useEffect(() => {
+    localStorage.setItem("title", title);
+  }, [title]);
+
+  React.useEffect(() => {
+    localStorage.setItem("content", content);
+  }, [content]);
 
   return (
     <>

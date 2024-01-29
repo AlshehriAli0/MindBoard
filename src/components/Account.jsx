@@ -4,7 +4,6 @@ import { LineWave } from "react-loader-spinner";
 
 function Account({
   toggleAccount,
-  fetchData,
   name,
   email,
   date,
@@ -81,7 +80,6 @@ function Account({
 
         if (response.status === 200) {
           setIsEditing(false);
-          fetchData();
 
           // * set success message
           if (editedName !== initialName) {

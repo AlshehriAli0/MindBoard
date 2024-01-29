@@ -5,7 +5,6 @@ import GoogleAuthButton from "./GoogleAuthButton";
 
 function LogForm({
   closeForm,
-  fetchData,
   setIsAuthenticated,
   setWelcomeMsg,
 }) {
@@ -43,7 +42,6 @@ function LogForm({
 
           // * fetch data
           if (response.data.authenticated) {
-            fetchData();
             setIsAuthenticated(true);
 
             // * set welcome message

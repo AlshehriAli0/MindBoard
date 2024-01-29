@@ -5,7 +5,6 @@ import SignForm from "./SignForm";
 import UserBtn from "./userBtn";
 
 function Navbar({
-  fetchData,
   isAuthenticated,
   setIsAuthenticated,
   setWelcomeMsg,
@@ -25,7 +24,6 @@ function Navbar({
       case "login":
         return (
           <LogForm
-            fetchData={fetchData}
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
@@ -36,7 +34,6 @@ function Navbar({
       case "signup":
         return (
           <SignForm
-            fetchData={fetchData}
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
@@ -61,7 +58,6 @@ function Navbar({
     } else {
       return (
         <UserBtn
-          fetchData={fetchData}
           setEmailSuccessMsg={setEmailSuccessMsg}
           setNameMsg={setNameMsg}
           setInvalidName={setInvalidName}
