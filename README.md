@@ -35,7 +35,9 @@ MindBoard is an intuitive web application designed to help users organize their 
 
 - **Create Note**: Easily create new notes with a title and content.
 - **View Notes**: Access and view a list of all your notes.
+- **Edit Note**: Modify the content of your existing notes for updates.
 - **Delete Note**: Remove unwanted notes to keep your workspace tidy.
+- **Order Notes**: Arrange your notes by the latest or oldest entries.
 
 ### Account Management 🧑‍💼
 
