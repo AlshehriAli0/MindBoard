@@ -1,6 +1,7 @@
 import React, { useState, memo } from "react";
 import axios from "axios";
 
+
 const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
   // * hooks
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,9 +16,6 @@ const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
         setEditedTitle(props.Title);
         setEditedContent(props.Content);
         setIsEditing(false);
-        document.removeEventListener("click", toggleMenu);
-      } else {
-        document.addEventListener("click", toggleMenu);
       }
       return !prev;
     });
@@ -137,7 +135,6 @@ const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
             </button>
 
             <div
-              onClick={(e) => e.stopPropagation()}
               className={`absolute top-0 right-0 md:mt-8 mt-10 z-40 ${
                 isMenuOpen ? "animate-fade-up" : " hidden"
               }  animate-duration-[200ms] animate-ease-out animate-normal bg-white border border-gray-200 rounded-md shadow-md`}
@@ -210,7 +207,7 @@ function createCard(props) {
   );
 }
 
-function Note({ setUpdateMsg, setDeleteMsg, ...props }) {
+function Note({setUpdateMsg, setDeleteMsg, ...props }) {
   const data = props.dataFromApp;
 
   return (
