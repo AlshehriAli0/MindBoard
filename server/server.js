@@ -368,7 +368,7 @@ app.get("/api/verifyAccount", async (req, res) => {
     await user.save();
 
     EmailVerifySuccess(email);
-    res.redirect("/");
+    res.redirect("https://mindboard.live/");
 
   } catch (err) {
     console.error("Error verifying account:", err.message);
