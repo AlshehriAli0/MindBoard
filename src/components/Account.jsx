@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
+import toast from "react-hot-toast";
 
-function Account({
-  toggleAccount,
-  name,
-  email,
-  date,
-  setEmailSuccessMsg,
-  setNameMsg,
-}) {
+function Account({ toggleAccount, name, email, date }) {
   // * hooks
 
   const [isEditing, setIsEditing] = useState(false);
@@ -83,14 +77,10 @@ function Account({
 
           // * set success message
           if (editedName !== initialName) {
-            setTimeout(() => {
-              setNameMsg(true);
-            }, 400);
+            toast.success("Name Updated!");
           }
           if (editedEmail !== initialEmail) {
-            setTimeout(() => {
-              setEmailSuccessMsg(true);
-            }, 400);
+            toast.success("Email Updated!");
           }
 
           //* Update initial values
@@ -109,14 +99,6 @@ function Account({
         setIsLoading(false);
       }
     }
-
-    setTimeout(() => {
-      setEmailSuccessMsg(false);
-    }, 6000);
-
-    setTimeout(() => {
-      setNameMsg(false);
-    }, 6000);
 
     setIsLoading(false);
   };

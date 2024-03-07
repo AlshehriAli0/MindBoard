@@ -3,8 +3,9 @@ import axios from "axios";
 import GoogleAuthButton from "./GoogleAuthButton";
 import { LineWave } from "react-loader-spinner";
 import { passwordStrength } from "check-password-strength";
+import toast from "react-hot-toast";
 
-function SignForm({ closeForm, setIsAuthenticated, setSuccessMsg }) {
+function SignForm({ closeForm, setIsAuthenticated }) {
   // * password options
   const passwordOptions = JSON.parse(process.env.REACT_APP_PASSWORD_OPTIONS);
 
@@ -70,13 +71,11 @@ function SignForm({ closeForm, setIsAuthenticated, setSuccessMsg }) {
           //* close form
           closeForm("");
 
+          toast.success("Confirmation Link Sent on email!");
+
+
           if (response.data.authenticated) {
             setIsAuthenticated(true);
-
-            // * set success message
-            setTimeout(() => {
-              setSuccessMsg(true);
-            }, 400);
           }
         });
     } catch (error) {
@@ -91,10 +90,7 @@ function SignForm({ closeForm, setIsAuthenticated, setSuccessMsg }) {
     }
     setIsLoading(false);
 
-    // * remove success message
-    setTimeout(() => {
-      setSuccessMsg(false);
-    }, 9000);
+    
   };
 
   return (
@@ -229,7 +225,7 @@ function SignForm({ closeForm, setIsAuthenticated, setSuccessMsg }) {
                 onClick={() => setShowPassword(!showPassword)}
               />
               {errorMessage && (
-                <div className="text-red-500 text-sm absolute pt-3 top-12 z-40">
+                <div className="text-red-500 text-xs absolute pt-0.5 top-12 z-40">
                   {errorMessage}
                 </div>
               )}

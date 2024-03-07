@@ -1,8 +1,8 @@
 import React, { useState, memo } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
-
-const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
+const Card = memo(function Card({ ...props }) {
   // * hooks
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,15 +52,10 @@ const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
       setIsMenuOpen(false);
       setIsEditing(false);
       props.setRefresh(true);
-
-      setUpdateMsg(true);
+      toast.success("Note updated!");
     } catch (error) {
       console.error(error);
     }
-
-    setTimeout(() => {
-      setUpdateMsg(false);
-    }, 5000);
   };
 
   // * delete note
@@ -76,15 +71,10 @@ const Card = memo(function Card({ setUpdateMsg, setDeleteMsg, ...props }) {
       );
       setIsMenuOpen(false);
 
-      setDeleteMsg(true);
-
+      toast.success("Note deleted!");
       setTimeout(() => {
         props.setRefresh(true);
       }, 200);
-
-      setTimeout(() => {
-        setDeleteMsg(false);
-      }, 3000);
     } catch (error) {
       console.error(error);
     }
@@ -201,13 +191,11 @@ function createCard(props) {
       Content={props.content}
       id={props.id}
       setRefresh={props.setRefresh}
-      setDeleteMsg={props.setDeleteMsg}
-      setUpdateMsg={props.setUpdateMsg}
     />
   );
 }
 
-function Note({setUpdateMsg, setDeleteMsg, ...props }) {
+function Note({  ...props }) {
   const data = props.dataFromApp;
 
   return (
@@ -217,8 +205,6 @@ function Note({setUpdateMsg, setDeleteMsg, ...props }) {
           createCard({
             ...item,
             setRefresh: props.setRefresh,
-            setDeleteMsg,
-            setUpdateMsg,
           })
         )}
       </section>

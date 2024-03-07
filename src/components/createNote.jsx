@@ -1,32 +1,13 @@
 import React, { useState } from "react";
-import { createPortal } from "react-dom";
 import axios from "axios";
-import SuccessMsg from "./SuccessMsg.jsx";
-import DeleteMsg from "./DeleteMsg .jsx";
-import WelcomeMsg from "./WelcomeMsg.jsx";
-import UpdateMsg from "./UpdateMsg.jsx";
 import { LineWave } from "react-loader-spinner";
-import NoteMsg from "./NoteMsg";
-import FailMsg from "./FailMsg";
+import toast from "react-hot-toast";
 
-function CreateNote({
-  setRefresh,
-  isAuthenticated,
-  welcomeMsg,
-  deleteMsg,
-  successMsg,
-  nameMsg,
-  emailSuccessMsg,
-  updateMsg,
-  invalidName,
-  setSortOrder,
-  SortOrder,
-}) {
+function CreateNote({ setRefresh, isAuthenticated, setSortOrder, SortOrder }) {
   // * hooks
   const [title, setTitle] = useState(localStorage.getItem("title") || "");
   const [content, setContent] = useState(localStorage.getItem("content") || "");
   const [isLoading, setIsLoading] = useState(false);
-  const [showNoteMsg, setShowNoteMsg] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // * post request to server
@@ -49,19 +30,13 @@ function CreateNote({
           setRefresh(true);
 
           // * show Note message
-          setTimeout(() => {
-            setShowNoteMsg(true);
-          }, 1200);
+          toast.success("Note added!");
         });
     } catch (error) {
       console.error(error);
     }
     setIsLoading(false);
 
-    // * remove Note message
-    setTimeout(() => {
-      setShowNoteMsg(false);
-    }, 3700);
   };
 
   // * handle sort order change
@@ -193,26 +168,6 @@ function CreateNote({
         </form>
       ) : (
         <></>
-      )}
-
-      {/* //* Notifications */}
-
-      {createPortal(
-        <>
-          <div className="pt-64 mt-80 md:mx-0 mx-12 ">
-            {emailSuccessMsg && <UpdateMsg msg="Email Updated!" />}
-            {nameMsg && <UpdateMsg msg="Name Updated!" />}
-            {successMsg && <SuccessMsg msg="Sign Up Successful!" />}
-            {deleteMsg && <DeleteMsg msg="Note Deleted!" />}
-            {welcomeMsg && <WelcomeMsg msg="Welcome Back!" />}
-            {showNoteMsg && <NoteMsg msg="Note Created " />}
-            {updateMsg && <NoteMsg msg="Note Updated!" />}
-            {invalidName && (
-              <FailMsg msg="Invalid Name From Google. Please Update It In Your Account Settings!" />
-            )}
-          </div>
-        </>,
-        document.getElementById("portal-root")
       )}
     </>
   );

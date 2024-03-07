@@ -5,29 +5,22 @@ import Note from "./components/Note.jsx";
 import CreateNote from "./components/createNote.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import Intro from "./components/Intro.jsx";
-
+import { Toaster } from "react-hot-toast";
 import { LineWave } from "react-loader-spinner";
 import axios from "axios";
 
-function App() {
+ function App() {
   // * hooks
   const [item, setItem] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [welcomeMsg, setWelcomeMsg] = useState(false);
-  const [deleteMsg, setDeleteMsg] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(false);
-  const [emailSuccessMsg, setEmailSuccessMsg] = useState(false);
-  const [nameMsg, setNameMsg] = useState(false);
-  const [updateMsg, setUpdateMsg] = useState(false);
   const [invalidName, setInvalidName] = useState(false);
   const [sortOrder, setSortOrder] = useState("ascending");
 
   // * fetch data from server
   const fetchData = async () => {
-
     setIsLoading(true);
     try {
       const result = await axios.get(`/api/notes?sortOrder=${sortOrder}`, {
@@ -47,6 +40,8 @@ function App() {
     // * toggle refresh
     setRefresh(false);
   };
+
+  
 
   useEffect(() => {
     fetchData();
@@ -81,13 +76,10 @@ function App() {
       ) : (
         <>
           <div className="">
+            <Toaster position="bottom-right" reverseOrder={true} />
             <Navbar
-              setWelcomeMsg={setWelcomeMsg}
               isAuthenticated={isAuthenticated}
               setIsAuthenticated={setIsAuthenticated}
-              setSuccessMsg={setSuccessMsg}
-              setEmailSuccessMsg={setEmailSuccessMsg}
-              setNameMsg={setNameMsg}
               setInvalidName={setInvalidName}
             />
             <Intro isAuthenticated={isAuthenticated} />
@@ -95,23 +87,12 @@ function App() {
             <CreateNote
               setRefresh={setRefresh}
               isAuthenticated={isAuthenticated}
-              emailSuccessMsg={emailSuccessMsg}
-              nameMsg={nameMsg}
-              successMsg={successMsg}
-              deleteMsg={deleteMsg}
-              welcomeMsg={welcomeMsg}
-              updateMsg={updateMsg}
               invalidName={invalidName}
               setSortOrder={setSortOrder}
               SortOrder={sortOrder}
             />
 
-            <Note
-              dataFromApp={item}
-              setRefresh={setRefresh}
-              setDeleteMsg={setDeleteMsg}
-              setUpdateMsg={setUpdateMsg}
-            />
+            <Note dataFromApp={item} setRefresh={setRefresh} />
           </div>
           {isAuthenticated && <Footer item={item} />}
         </>

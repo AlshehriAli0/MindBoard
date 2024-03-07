@@ -11,7 +11,7 @@ function Footer({ item }) {
     >
       <hr className="w-full border-gray-400" />
       <div className="flex justify-between sm:px-8 px-5 items-center h-16">
-        <p className="text-gray-500 text-sm text-left">
+        <p className="text-gray-500 text-xs text-left">
           © {currentYear}{" "}
           <span className="font-bold text-gray-600 hover:text-gray-900">
             MindBoard by Ali Alshehri.{" "}

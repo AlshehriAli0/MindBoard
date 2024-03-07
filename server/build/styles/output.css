@@ -4934,6 +4934,11 @@ video {
   color: rgb(38 50 56 / var(--tw-text-opacity));
 }
 
+.hover\:text-gray-900:hover {
+  --tw-text-opacity: 1;
+  color: rgb(33 33 33 / var(--tw-text-opacity));
+}
+
 .hover\:text-light-blue-500:hover {
   --tw-text-opacity: 1;
   color: rgb(3 169 244 / var(--tw-text-opacity));
@@ -6395,10 +6400,6 @@ video {
 
   .sm\:ml-16 {
     margin-left: 4rem;
-  }
-
-  .sm\:mt-64 {
-    margin-top: 16rem;
   }
 
   .sm\:mt-56 {

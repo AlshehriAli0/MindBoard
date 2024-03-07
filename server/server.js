@@ -10,12 +10,12 @@ import passportLocalMongoose from "passport-local-mongoose";
 import LocalStrategy from "passport-local";
 import dotenv from "dotenv";
 import path from "path";
+import cryptoRandomString from "crypto-random-string";
 import { customAlphabet } from "nanoid";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import GoogleStrategy from "passport-google-oauth20";
-
-
+import { Resend } from "resend";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,11 +50,11 @@ function validateFirstName(firstName) {
 
 // * Middleware
 app.use((req, res, next) => {
-if (req.header("x-forwarded-proto") !== "https") {
-res.redirect(`https://${req.header("host")}${req.url}`);
-} else {
-next();
-}
+  if (req.header("x-forwarded-proto") !== "https") {
+    res.redirect(`https://${req.header("host")}${req.url}`);
+  } else {
+    next();
+  }
 });
 app.use(express.static("build"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -88,13 +88,14 @@ mongoose
   .catch((err) => console.log(err));
 
 const Schema = mongoose.Schema;
-
 // * User schema
 const userSchema = new Schema(
   {
     name: String,
     email: { type: String, unique: true },
     password: String,
+    verificationCode: String,
+    isVerified: { type: Boolean, default: false },
     id: String,
     googleId: String,
     isNewUser: { type: Boolean, default: true },
@@ -148,12 +149,15 @@ passport.use(
     },
     async function (email, password, done) {
       try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ email });
         if (!user) {
           return done(null, false, { message: "Incorrect username." });
         }
         if (!bcrypt.compareSync(password, user.password)) {
           return done(null, false, { message: "Incorrect password." });
+        }
+        if (!user.isVerified) {
+          return done(null, user, { message: "Verify account first." });
         }
         return done(null, user);
       } catch (err) {
@@ -212,7 +216,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "https://www.mindboard.live/",
-      }),
+  }),
   async (req, res) => {
     try {
       const user = await req.user;
@@ -228,7 +232,7 @@ app.get(
       });
 
       res.redirect(`https://www.mindboard.live/`);
-          } catch (error) {
+    } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
@@ -236,9 +240,9 @@ app.get(
 );
 
 // * Get Routes
-app.get("/", (req, res) => {
-  res.redirect("https://www.mindboard.live/");
-  });
+app.get("/", passport.authenticate("local"), async (req, res) => {
+  
+});
 
 app.get("/api/logout", (req, res) => {
   req.logout((err) => {
@@ -291,11 +295,25 @@ app.get("/api/notes", async (req, res) => {
 
 // * Post Routes
 
-app.post("/api/login", passport.authenticate("local"), (req, res) => {
+app.post("/api/login", passport.authenticate("local"), async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (user && !user.isVerified) {
+    res.status(403).json({
+      authenticated: false,
+      verified: false,
+      message: "User exists but isn't verified",
+    });
+    return;
+  }
   if (req.isAuthenticated()) {
     res.status(200).json({ authenticated: true, message: "Login successful" });
+    return;
   } else {
-    res.status(401).send({ authenticated: true, message: "Not authenticated" });
+    res
+      .status(401)
+      .json({ authenticated: false, message: "Incorrect email or password" });
+    return;
   }
 });
 
@@ -304,6 +322,7 @@ app.post("/api/signUp", async (req, res) => {
 
   // *hashing password
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
+  const authCode = cryptoRandomString({ length: 32 });
 
   // *creating new user and saving
   try {
@@ -311,26 +330,51 @@ app.post("/api/signUp", async (req, res) => {
     if (existingUser) {
       return res.status(401).json({ message: "Email already in use" });
     }
-
+    console.log();
     // *  saving
-    const newUser = new User({ name, email, password: hashedPassword });
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      verificationCode: authCode,
+    });
     newUser.createdAt = new Date();
     await newUser.save();
 
-    // *logging in user automatically after signup
-    req.login(newUser, (err) => {
-      if (err) {
-        res
-          .status(500)
-          .json({ message: "Error signing up", error: err.message });
-      } else {
-        res
-          .status(201)
-          .json({ authenticated: true, message: "Sign up successful" });
-      }
-    });
+    // * send link
+    SendEmail(email, authCode);
+
+    res.status(201).json({ message: "User created", data: newUser });
   } catch (err) {
-    res.status(500).json({ message: "Error signing up", error: err.message });
+    console.error("Error during sign up:", err.message);
+  }
+});
+
+app.get("/api/verifyAccount", async (req, res) => {
+  const { email, token } = req.query;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.verificationCode !== token) {
+      return res.status(400).json({ message: "Invalid verification token" });
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    EmailVerifySuccess(email);
+    res.redirect("/");
+
+  } catch (err) {
+    console.error("Error verifying account:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error verifying account", error: err.message });
   }
 });
 
@@ -424,6 +468,29 @@ app.post("/api/updateUser", async (req, res) => {
       .json({ message: "Error updating user", error: err.message });
   }
 });
+
+async function SendEmail(email, authCode) {
+  const resend = new Resend(process.env.RESEND_API);
+  const verificationLink = `https://mindboard.live/api/verifyAccount?email=${email}&token=${authCode}`;
+
+  await resend.emails.send({
+    from: "MindBoard <Verify@mindboard.live>",
+    to: email,
+    subject: "Verify Your MindBoard Account",
+    text: `Click the link to verify your account: ${verificationLink}`,
+  });
+}
+
+async function EmailVerifySuccess(email) {
+  const resend = new Resend(process.env.RESEND_API);
+
+  await resend.emails.send({
+    from: "MindBoard <Verify@mindboard.live>",
+    to: email,
+    subject: "Account Verification Success!",
+    text: "Your account has been verified!",
+  });
+}
 
 // * server listening
 app.listen(PORT, () => {

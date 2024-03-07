@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Account from "./Account";
+import toast from "react-hot-toast";
 
-function UserBtn({
-  setEmailSuccessMsg,
-  setNameMsg,
-  setInvalidName,
-  setSuccessMsg,
-  setWelcomeMsg,
-}) {
+function UserBtn() {
   // * hooks
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -51,16 +46,13 @@ function UserBtn({
         if (res.data.name === "User") {
           return;
         }
-        setSuccessMsg(true);
       } else {
-        setWelcomeMsg(true);
+        toast.success("Welcome back!");
       }
 
       // * check if user name is invalid
       if (res.data.name === "User") {
-        setInterval(() => {
-          setInvalidName(true);
-        }, 3000);
+        toast.error("Please change the default name!");
       }
     } catch (err) {
       console.error(err);
@@ -137,8 +129,6 @@ function UserBtn({
           name={user}
           email={email}
           date={date}
-          setEmailSuccessMsg={setEmailSuccessMsg}
-          setNameMsg={setNameMsg}
         />
       )}
     </>

@@ -4,15 +4,7 @@ import LogForm from "./LogForm";
 import SignForm from "./SignForm";
 import UserBtn from "./userBtn";
 
-function Navbar({
-  isAuthenticated,
-  setIsAuthenticated,
-  setWelcomeMsg,
-  setSuccessMsg,
-  setEmailSuccessMsg,
-  setNameMsg,
-  setInvalidName,
-}) {
+function Navbar({ isAuthenticated, setIsAuthenticated }) {
   const [currentForm, setCurrentForm] = useState(null);
 
   const handleButtonClick = (form) => {
@@ -27,8 +19,6 @@ function Navbar({
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
-            setWelcomeMsg={setWelcomeMsg}
-            setNameMsg={setNameMsg}
           />
         );
       case "signup":
@@ -37,8 +27,6 @@ function Navbar({
             closeForm={() => setCurrentForm(null)}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
-            setSuccessMsg={setSuccessMsg}
-            setEmailSuccessMsg={setEmailSuccessMsg}
           />
         );
       default:
@@ -52,20 +40,10 @@ function Navbar({
         <NavBtn
           handleButtonClick={handleButtonClick}
           currentForm={currentForm}
-          
         />
       );
     } else {
-      return (
-        <UserBtn
-          setEmailSuccessMsg={setEmailSuccessMsg}
-          setNameMsg={setNameMsg}
-          setInvalidName={setInvalidName}
-          setSuccessMsg={setSuccessMsg}
-          setWelcomeMsg={setWelcomeMsg}
-          
-        />
-      );
+      return <UserBtn/>;
     }
   };
 
@@ -85,7 +63,6 @@ function Navbar({
           </div>
           {renderNavBtn()}
           {createPortal(renderForm(), document.getElementById("root"))}
-
         </div>
       </nav>
     </>

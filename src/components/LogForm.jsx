@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { LineWave } from "react-loader-spinner";
 import GoogleAuthButton from "./GoogleAuthButton";
+import toast from "react-hot-toast";
 
-function LogForm({
-  closeForm,
-  setIsAuthenticated,
-  setWelcomeMsg,
-}) {
+function LogForm({ closeForm, setIsAuthenticated }) {
   // * hooks
   const [showPassword, setShowPassword] = useState(false);
   const [isFocusedE, setFocusedE] = useState(false);
@@ -43,15 +40,16 @@ function LogForm({
           // * fetch data
           if (response.data.authenticated) {
             setIsAuthenticated(true);
-
+            
             // * set welcome message
-            setTimeout(() => {
-              setWelcomeMsg(true);
-            }, 400);
+            toast.success("Welcome back!")
           }
         });
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.response && error.response.status === 403) {
+        setErrorMessage("Email still not verified! Check your email!");
+
+      } else if (error.response && error.response.status === 401) {
         setErrorMessage("Incorrect email or password");
       } else {
         setErrorMessage(
@@ -62,10 +60,7 @@ function LogForm({
     }
     setIsLoading(false);
 
-    // * remove welcome message
-    setTimeout(() => {
-      setWelcomeMsg(false);
-    }, 9000);
+   
   };
 
   return (
@@ -168,7 +163,7 @@ function LogForm({
                 onClick={() => setShowPassword(!showPassword)}
               />
               {errorMessage && (
-                <div className="text-red-500 text-sm absolute pt-3 top-12 z-40">
+                <div className="text-red-500 text-xs absolute pt-1 top-12 z-40">
                   {errorMessage}
                 </div>
               )}
