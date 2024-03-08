@@ -11,63 +11,61 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-const baseUrl = process.env.PUBLIC_URL
-  
-export const EmailTemplateVerify = ({ authLink }) => (
-  <Html>
-    <Head />
-    <Preview>Verify with this magic link</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>Verify Your Email</Heading>
-        <Link
-          href={authLink}
-          target="_blank"
-          style={{
-            ...link,
-            display: "block",
-            marginBottom: "16px",
-          }}
-        >
-          Click here verify your email and start using MindBoard
-        </Link>
-        <Text
-          style={{
-            ...text,
-            color: "#ababab",
-            marginTop: "14px",
-            marginBottom: "16px",
-          }}
-        >
-          If you didn&apos;t try to sign up for MindBoard, you can safely ignore
-          this email.
-        </Text>
-        <Img
-          src={`${baseUrl}/assets/board.png`}
-          width="32"
-          height="32"
-          alt="Mindboard Logo"
-        />
-        <Text style={footer}>
+const baseUrl = process.env.PUBLIC_URL;
+
+export default function EmailTemplateVerify({ authLink }) {
+  return (
+    <Html>
+      <Head />
+      <Preview>Verify with this magic link</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>Verify Your Email</Heading>
           <Link
-            href="https://www.mindboard.live"
+            href={authLink}
             target="_blank"
-            style={{ ...link, color: "#898989" }}
+            style={{
+              ...link,
+              display: "block",
+              marginBottom: "16px",
+            }}
           >
-            MindBoard
+            Click here verify your email and start using MindBoard
           </Link>
-          , the all-in-one-boardspace
-          <br />
-          for your notes, tasks and anything in mind.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-);
-
-
-
-
+          <Text
+            style={{
+              ...text,
+              color: "#ababab",
+              marginTop: "14px",
+              marginBottom: "16px",
+            }}
+          >
+            If you didn&apos;t try to sign up for MindBoard, you can safely
+            ignore this email.
+          </Text>
+          <Img
+            src={`${baseUrl}/assets/board.png`}
+            width="32"
+            height="32"
+            alt="Mindboard Logo"
+          />
+          <Text style={footer}>
+            <Link
+              href="https://www.mindboard.live"
+              target="_blank"
+              style={{ ...link, color: "#898989" }}
+            >
+              MindBoard
+            </Link>
+            , the all-in-one-boardspace
+            <br />
+            for your notes, tasks and anything in mind.
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+}
 
 const main = {
   backgroundColor: "#ffffff",
