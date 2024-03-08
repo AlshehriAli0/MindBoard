@@ -21,7 +21,7 @@ export const EmailTemplateVerify = ({ authLink }) => (
       <Container style={container}>
         <Heading style={h1}>Verify Your Email</Heading>
         <Link
-          href="authLink"
+          href={authLink}
           target="_blank"
           style={{
             ...link,
@@ -50,7 +50,7 @@ export const EmailTemplateVerify = ({ authLink }) => (
         />
         <Text style={footer}>
           <Link
-            href="https://mindboard.live"
+            href="https://www.mindboard.live"
             target="_blank"
             style={{ ...link, color: "#898989" }}
           >
