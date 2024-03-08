@@ -4,6 +4,24 @@ import GoogleAuthButton from "./GoogleAuthButton";
 import { LineWave } from "react-loader-spinner";
 import { passwordStrength } from "check-password-strength";
 import toast from "react-hot-toast";
+import {Resend} from "resend";
+import EmailTemplateVerify from "./EmailTemplateVerify";
+
+
+async function SendEmail(email, authCode) {
+  const resend = new Resend(process.env.RESEND_API);
+  const verificationLink = `https://www.mindboard.live/api/verifyAccount?email=${email}&token=${authCode}`;
+
+  await resend.emails.send({
+    from: "MindBoard <Verify@mindboard.live>",
+    to: email,
+    subject: "Verify Your MindBoard Account",
+    text: `Click the link to verify your account: ${verificationLink}`,
+    react: React.createElement(EmailTemplateVerify, {
+      authLink: verificationLink,
+    }),
+  });
+}
 
 function SignForm({ closeForm, setIsAuthenticated }) {
   // * password options
@@ -76,6 +94,10 @@ function SignForm({ closeForm, setIsAuthenticated }) {
 
           if (response.data.authenticated) {
             setIsAuthenticated(true);
+          }
+          if (response.status === 201) {
+            const { email, authCode } = response.data;
+            SendEmail(email, authCode);
           }
         });
     } catch (error) {

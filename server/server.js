@@ -16,9 +16,6 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import GoogleStrategy from "passport-google-oauth20";
 import { Resend } from "resend";
-import React from "react";
-import EmailTemplateVerify from "../src/components/EmailTemplateVerify.jsx";
-import ReactDOMServer from "react-dom/server";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -345,9 +342,8 @@ app.post("/api/signUp", async (req, res) => {
     await newUser.save();
 
     // * send link
-    SendEmail(email, authCode);
 
-    res.status(201).json({ message: "User created", data: newUser });
+    res.status(201).json({ email, authCode });
   } catch (err) {
     console.error("Error during sign up:", err.message);
   }
@@ -471,22 +467,7 @@ app.post("/api/updateUser", async (req, res) => {
   }
 });
 
-async function SendEmail(email, authCode) {
-  const resend = new Resend(process.env.RESEND_API);
-  const verificationLink = `https://www.mindboard.live/api/verifyAccount?email=${email}&token=${authCode}`;
-  
-   const emailBody = ReactDOMServer.renderToStaticMarkup(
-     <EmailTemplateVerify authLink={verificationLink} />
-   );
 
-  await resend.emails.send({
-    from: "MindBoard <Verify@mindboard.live>",
-    to: email,
-    subject: "Verify Your MindBoard Account",
-    text: `Click the link to verify your account: ${verificationLink}`,
-    html: emailBody,
-  });
-}
 
 async function EmailVerifySuccess(email) {
   const resend = new Resend(process.env.RESEND_API);

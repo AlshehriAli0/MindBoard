@@ -9,6 +9,7 @@ import {
   Preview,
   Text,
 } from "@react-email/components";
+
 import * as React from "react";
 
 const baseUrl = process.env.PUBLIC_URL;
