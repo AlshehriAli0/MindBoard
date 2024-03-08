@@ -471,13 +471,20 @@ app.post("/api/updateUser", async (req, res) => {
 
 async function SendEmail(email, authCode) {
   const resend = new Resend(process.env.RESEND_API);
-  const verificationLink = `https://mindboard.live/api/verifyAccount?email=${email}&token=${authCode}`;
+  const verificationLink = `http://mindboard.live/api/verifyAccount?email=${email}&token=${authCode}`;
 
   await resend.emails.send({
     from: "MindBoard <Verify@mindboard.live>",
     to: email,
     subject: "Verify Your MindBoard Account",
     text: `Click the link to verify your account: ${verificationLink}`,
+    react: {
+      component: "EmailTemplateVerify",
+      props: {
+        authLink: verificationLink,
+      },
+    },
+
   });
 }
 
