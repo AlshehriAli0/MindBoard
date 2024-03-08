@@ -16,6 +16,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import GoogleStrategy from "passport-google-oauth20";
 import { Resend } from "resend";
+import EmailTemplateVerify from "./EmailTemplateVerify";
+import React from "react";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -240,9 +242,7 @@ app.get(
 );
 
 // * Get Routes
-app.get("/", passport.authenticate("local"), async (req, res) => {
-  
-});
+app.get("/", passport.authenticate("local"), async (req, res) => {});
 
 app.get("/api/logout", (req, res) => {
   req.logout((err) => {
@@ -369,7 +369,6 @@ app.get("/api/verifyAccount", async (req, res) => {
 
     EmailVerifySuccess(email);
     res.redirect("http://mindboard.live/");
-
   } catch (err) {
     console.error("Error verifying account:", err.message);
     res
@@ -478,13 +477,9 @@ async function SendEmail(email, authCode) {
     to: email,
     subject: "Verify Your MindBoard Account",
     text: `Click the link to verify your account: ${verificationLink}`,
-    react: {
-      component: "EmailTemplateVerify",
-      props: {
-        authLink: verificationLink,
-      },
-    },
-
+    react: React.createElement(EmailTemplateVerify, {
+      authLink: verificationLink,
+    }),
   });
 }
 

@@ -13,7 +13,7 @@ import * as React from "react";
 
 const baseUrl = process.env.PUBLIC_URL
   
-export const NotionMagicLinkEmail = ({ authLink }) => (
+export const EmailTemplateVerify = ({ authLink }) => (
   <Html>
     <Head />
     <Preview>Verify with this magic link</Preview>
