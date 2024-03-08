@@ -243,7 +243,7 @@ app.get(
 
 // * Get Routes
 app.get("/", async (req, res) => {
-  res.redirect("https://www.mindboard.live/");
+  res.redirect("http://www.mindboard.live/");
 });
 
 app.get("/api/logout", (req, res) => {
