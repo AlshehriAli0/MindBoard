@@ -10,6 +10,7 @@ import EmailTemplateVerify from "./EmailTemplateVerify";
 
 async function SendEmail(email, authCode) {
   const resend = new Resend(process.env.REACT_APP_RESEND_API);
+
   const verificationLink = `https://www.mindboard.live/api/verifyAccount?email=${email}&token=${authCode}`;
 
   await resend.emails.send({

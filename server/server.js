@@ -28,7 +28,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const monURL = process.env.MONGODB_URI.toString();
 const Secret = process.env.SESSION_SECRET;
-const CORS_ORIGIN = process.env.CORS_ORIGIN.toString();
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
 
 // * Salting password algorithm
 function getRandomSaltRounds(min, max) {
@@ -62,9 +62,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: CORS_ORIGIN,
+    origin: [CORS_ORIGIN, "https://api.resend.com/emails", "https://www.mindboard.live"],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "DELETE",
+      "OPTIONS",
+      "HEAD",
+      "PATCH",
+      "CONNECT",
+      "TRACE",
+    ],
   })
 );
 
@@ -466,8 +476,6 @@ app.post("/api/updateUser", async (req, res) => {
       .json({ message: "Error updating user", error: err.message });
   }
 });
-
-
 
 async function EmailVerifySuccess(email) {
   const resend = new Resend(process.env.RESEND_API);
