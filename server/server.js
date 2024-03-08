@@ -242,7 +242,7 @@ app.get(
 );
 
 // * Get Routes
-app.get("/", passport.authenticate("local"), async (req, res) => {
+app.get("/", async (req, res) => {
   res.redirect("https://www.mindboard.live/");
 });
 
